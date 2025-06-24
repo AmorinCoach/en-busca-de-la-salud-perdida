@@ -3,14 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <title>En busca de la salud perdida - Galería de Infografías</title>
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #f7cac9, #92a8d1 90%);
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      width: 100%;
+      background: rgba(8,65,92,0.12);
+      padding: 40px 0 18px 0;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    header h1 {
+      margin: 0 0 10px 0;
+      font-size: 2.5em;
+      color: #08415c;
+      letter-spacing: 2px;
+    }
+    header h2 {
+      margin: 0;
+      font-size: 1.4em;
+      color: #2e5674;
+      font-weight: 400;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 40px 0 30px 0;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    ul li {
+      width: 100%;
+    }
+    ul a {
+      display: block;
+      background: #fff;
+      color: #08415c;
+      text-decoration: none;
+      padding: 16px 0;
+      border-radius: 12px;
+      font-size: 1.2em;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(8,65,92,0.08);
+      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+      font-weight: 500;
+    }
+    ul a:hover {
+      background: #08415c;
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(8,65,92,0.18);
+    }
+    p {
+      color: #555;
+      font-size: 1.1em;
+      margin-bottom: 30px;
+    }
+    footer {
+      margin-top: auto;
+      width: 100%;
+      padding: 20px 0 12px 0;
+      background: rgba(8,65,92,0.08);
+      color: #08415c;
+      text-align: center;
+      font-size: 1em;
+      letter-spacing: 1px;
+    }
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5em; }
+      ul a { font-size: 1em; padding: 12px 0; }
+      ul { max-width: 98vw; }
+    }
+  </style>
 </head>
 <body>
-  <h1>En busca de la salud perdida</h1>
-  <h2>Galería de Infografías</h2>
+  <header>
+    <h1>En busca de la salud perdida</h1>
+    <h2>Galería de Infografías</h2>
+  </header>
   <ul>
     <li><a href="infografia-especias-1.html">Infografía: Especias 1</a></li>
     <!-- Cuando agregues más infografías, añade aquí más <li> -->
   </ul>
   <p>Más infografías próximamente... ¡Vuelve pronto!</p>
+  <footer>
+    &copy; 2025 AmorinCoach - Inspirando salud y bienestar
+  </footer>
 </body>
 </html>
