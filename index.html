@@ -2,102 +2,110 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>En busca de la salud perdida - Galería de Infografías</title>
+  <title>En busca de la salud perdida</title>
   <style>
     body {
       min-height: 100vh;
       margin: 0;
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(120deg, #f7cac9, #92a8d1 90%);
-      color: #222;
+      /* Gradiente mezcla cúrcuma y verde natural */
+      background: linear-gradient(120deg, #f6e27a 0%, #a3c585 70%, #e1ad01 100%);
+      color: #2c3e26;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
     header {
-      width: 100%;
-      background: rgba(8,65,92,0.12);
-      padding: 40px 0 18px 0;
+      margin-top: 40px;
       text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
-    header h1 {
-      margin: 0 0 10px 0;
-      font-size: 2.5em;
-      color: #08415c;
-      letter-spacing: 2px;
+    header img {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      margin-bottom: 20px;
+      object-fit: cover;
+      border: 4px solid #e1ad01; /* Borde amarillo tipo cúrcuma */
+      background: #fffbe6;
     }
-    header h2 {
-      margin: 0;
-      font-size: 1.4em;
-      color: #2e5674;
-      font-weight: 400;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 40px 0 30px 0;
-      width: 100%;
-      max-width: 420px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    ul li {
-      width: 100%;
-    }
-    ul a {
-      display: block;
-      background: #fff;
-      color: #08415c;
-      text-decoration: none;
-      padding: 16px 0;
-      border-radius: 12px;
-      font-size: 1.2em;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(8,65,92,0.08);
-      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
-      font-weight: 500;
-    }
-    ul a:hover {
-      background: #08415c;
-      color: #fff;
-      box-shadow: 0 8px 20px rgba(8,65,92,0.18);
+    h1 {
+      font-size: 2.6em;
+      color: #b28800; /* Amarillo cúrcuma oscuro */
+      margin-bottom: 10px;
+      letter-spacing: 1.5px;
+      text-shadow: 1px 2px 8px #fffbe6;
     }
     p {
-      color: #555;
-      font-size: 1.1em;
-      margin-bottom: 30px;
+      font-size: 1.25em;
+      color: #355829;
+    }
+    nav {
+      margin: 50px 0 30px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: 100%;
+      max-width: 400px;
+    }
+    nav a {
+      display: block;
+      background: #fffbe6; /* Marfil claro */
+      color: #33691e;
+      text-decoration: none;
+      padding: 14px 0;
+      font-size: 1.25em;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(8,65,92,0.07);
+      text-align: center;
+      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+      font-weight: 500;
+      border-left: 8px solid #e1ad01;
+    }
+    nav a:hover {
+      background: #e1ad01;
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(8,65,92,0.15);
+      border-left: 8px solid #4b7b3f;
     }
     footer {
       margin-top: auto;
       width: 100%;
-      padding: 20px 0 12px 0;
-      background: rgba(8,65,92,0.08);
-      color: #08415c;
+      padding: 22px 0 12px 0;
+      background: rgba(76, 119, 63, 0.09); /* Verde herbario suave */
+      color: #33691e;
       text-align: center;
       font-size: 1em;
       letter-spacing: 1px;
     }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.5em; }
-      ul a { font-size: 1em; padding: 12px 0; }
-      ul { max-width: 98vw; }
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 2em;
+      }
+      nav a {
+        font-size: 1em;
+        padding: 12px 0;
+      }
     }
   </style>
 </head>
 <body>
   <header>
+    <!-- Cambia el src por la ruta de tu logo o una imagen representativa -->
+    <img src="img/logo.png" alt="Logo de la salud" onerror="this.style.display='none'">
     <h1>En busca de la salud perdida</h1>
-    <h2>Galería de Infografías</h2>
+    <p>Bienvenido a tu espacio de bienestar, información y recetas saludables.</p>
   </header>
-  <ul>
-    <li><a href="infografia-especias-1.html">Infografía: Especias 1</a></li>
-    <!-- Cuando agregues más infografías, añade aquí más <li> -->
-  </ul>
-  <p>Más infografías próximamente... ¡Vuelve pronto!</p>
+
+  <nav>
+    <a href="infografia-especias-1.html">Infografía: Especias 1</a>
+    <a href="infografia-especias-2.html">Infografía: Especias 2</a>
+    <a href="recetas.html">Recetas Saludables</a>
+    <!-- Puedes agregar más enlaces según tu contenido -->
+  </nav>
+
   <footer>
-    &copy; 2025 AmorinCoach - Inspirando salud y bienestar
+    &copy; 2025 AmorinCoach - Inspirando salud y bienestar cada día
   </footer>
 </body>
 </html>
