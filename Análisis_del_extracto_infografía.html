@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: El Poder Sinergético del Extracto Funcional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Energetic & Playful -->
+    <!-- Application Structure Plan: La infografía sigue una narrativa lineal y educativa. Comienza con una introducción (Sección 1: "El Quinteto Funcional") para presentar los 5 componentes clave. Luego, se sumerge en el concepto más crucial, la sinergia, con una sección dedicada (Sección 2: "La Clave de la Sinergia: Bio-potenciación") que explica visualmente el rol de la piperina. A continuación, detalla los resultados de esta sinergia en tres áreas de beneficios principales (Sección 3: "Impacto Fisiológico Colectivo"). Finalmente, ofrece una visión más profunda del mecanismo con un diagrama de vías moleculares (Sección 4: "La Orquesta Molecular"). Esta estructura cuenta una historia clara: qué es, cómo se potencia, qué beneficios tiene y cómo funciona a nivel profundo. -->
+    <!-- Visualization & Content Choices: 1. Componentes: Tarjetas con iconos Unicode para una rápida identificación (Objetivo: Informar). 2. Sinergia (Piperina): Diagrama de flujo HTML/CSS (Objetivo: Organizar/Proceso) para mostrar la causa-efecto de la inhibición enzimática, una visualización más clara que el texto. 3. Beneficios: Gráficos de barras horizontales (Chart.js) para cada beneficio (Objetivo: Comparar), mostrando qué componentes contribuyen más. 4. Vías Moleculares: Diagrama de relaciones HTML/CSS (Objetivo: Relaciones) para mapear compuestos a sus objetivos moleculares. Se confirma que NO se utilizó SVG ni Mermaid JS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F9FA; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+        .flow-arrow {
+            position: relative;
+            padding-right: 2rem;
+        }
+        .flow-arrow::after {
+            content: '→';
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #FF5733;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#0043A3]">El Poder Sinergético del Extracto Funcional</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Un análisis visual de cómo cinco compuestos bioactivos trabajan en conjunto para optimizar la salud, desde sus mecanismos moleculares hasta sus beneficios fisiológicos.</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="components" class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#0043A3]">Sección 1: El Quinteto Funcional</h2>
+                <p class="mt-2 text-md text-gray-600 max-w-2xl mx-auto">Este extracto combina estratégicamente cinco potentes moléculas de origen natural. Cada una posee propiedades únicas, pero su verdadero poder reside en su interacción.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6 text-center transition-transform hover:scale-105">
+                    <div class="text-5xl mb-4">🌿</div>
+                    <h3 class="text-xl font-bold text-[#00A3A3]">Curcumina</h3>
+                    <p class="text-sm text-gray-500">De la Cúrcuma</p>
+                    <p class="mt-2 text-gray-700">Potente antiinflamatorio sistémico y antioxidante.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center transition-transform hover:scale-105">
+                    <div class="text-5xl mb-4">🔥</div>
+                    <h3 class="text-xl font-bold text-[#C70039]">Gingerol</h3>
+                    <p class="text-sm text-gray-500">Del Jengibre</p>
+                    <p class="mt-2 text-gray-700">Alivia el dolor y la inflamación a nivel enzimático.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center transition-transform hover:scale-105">
+                    <div class="text-5xl mb-4">🍂</div>
+                    <h3 class="text-xl font-bold text-[#FF5733]">Cinamaldehído</h3>
+                    <p class="text-sm text-gray-500">De la Canela</p>
+                    <p class="mt-2 text-gray-700">Mejora la circulación y aporta un efecto antioxidante.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center transition-transform hover:scale-105">
+                    <div class="text-5xl mb-4">🌶️</div>
+                    <h3 class="text-xl font-bold text-[#C70039]">Capsaicina</h3>
+                    <p class="text-sm text-gray-500">Del Chile</p>
+                    <p class="mt-2 text-gray-700">Potente analgésico directo y regulador metabólico.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center transition-transform hover:scale-105">
+                    <div class="text-5xl mb-4">⚫</div>
+                    <h3 class="text-xl font-bold text-[#0043A3]">Piperina</h3>
+                    <p class="text-sm text-gray-500">De la Pimienta Negra</p>
+                    <p class="mt-2 text-gray-700">La clave que potencia la absorción de todos los demás.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="synergy" class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#0043A3]">Sección 2: La Clave de la Sinergia: Bio-potenciación</h2>
+                <p class="mt-2 text-md text-gray-600 max-w-3xl mx-auto">La eficacia del extracto se dispara gracias a la piperina, que actúa como un "bio-potenciador". Inhibe enzimas en el hígado que normalmente eliminan los otros compuestos, aumentando drásticamente su absorción y tiempo de acción en el cuerpo.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 items-center gap-8 text-center">
+                    <div class="space-y-4">
+                        <div class="p-4 bg-[#FFC300]/20 rounded-lg border-2 border-dashed border-[#FFC300]">
+                            <h4 class="font-bold">Curcumina + Otros Compuestos</h4>
+                            <p class="text-sm">Ingresan al organismo</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="text-5xl text-[#FF5733] font-bold transform -rotate-90 md:rotate-0">→</div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-gray-800/80 text-white rounded-lg relative">
+                            <h4 class="font-bold">Hígado (Metabolismo)</h4>
+                            <p class="text-sm text-gray-300">Aquí, enzimas como UGT y CYPs se preparan para eliminar los compuestos.</p>
+                            <div class="absolute -top-4 -right-4 px-3 py-1 bg-[#C70039] text-white text-xs font-bold rounded-full animate-pulse">BLOQUEADO</div>
+                        </div>
+                        <div class="text-2xl text-gray-400">↓</div>
+                        <div class="p-4 bg-[#00A3A3]/20 rounded-lg flow-arrow">
+                            <h4 class="font-bold">Acción de la Piperina</h4>
+                            <p class="text-sm">Inhibe las enzimas UGT y CYPs.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 pt-8 border-t-2 border-dashed border-gray-300">
+                    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-6 rounded-lg text-center">
+                        <h3 class="text-2xl font-bold">Resultado: ¡Biodisponibilidad Maximizada!</h3>
+                        <p class="mt-2">Una concentración mucho mayor de compuestos activos llega a la sangre y a los tejidos, multiplicando la eficacia terapéutica del extracto. Por ejemplo, la biodisponibilidad de la curcumina puede aumentar hasta un 2000%.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="benefits" class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#0043A3]">Sección 3: Impacto Fisiológico Colectivo</h2>
+                <p class="mt-2 text-md text-gray-600 max-w-2xl mx-auto">La acción sinérgica se traduce en tres áreas de beneficios principales. Los siguientes gráficos muestran la contribución relativa de cada compuesto a estos efectos.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold text-[#00A3A3] mb-4">Modulación de Inflamación y Estrés Oxidativo</h3>
+                    <p class="text-sm text-gray-600 mb-4">El extracto ataca la inflamación desde múltiples ángulos, inhibiendo interruptores pro-inflamatorios y activando las defensas antioxidantes del cuerpo.</p>
+                    <div class="chart-container h-80 max-h-80"><canvas id="inflammationChart"></canvas></div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold text-[#C70039] mb-4">Alivio del Dolor (Efecto Analgésico)</h3>
+                    <p class="text-sm text-gray-600 mb-4">Actúa directamente sobre los receptores del dolor y reduce los mensajeros químicos que causan las molestias, ofreciendo un alivio multi-modal.</p>
+                    <div class="chart-container h-80 max-h-80"><canvas id="painChart"></canvas></div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold text-[#FF5733] mb-4">Soporte Metabólico y Energético</h3>
+                    <p class="text-sm text-gray-600 mb-4">Optimiza el uso de energía en las células, mejora la salud mitocondrial y promueve procesos de limpieza celular (autofagia).</p>
+                    <div class="chart-container h-80 max-h-80"><canvas id="metabolismChart"></canvas></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="pathways">
+             <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#0043A3]">Sección 4: La Orquesta Molecular</h2>
+                <p class="mt-2 text-md text-gray-600 max-w-3xl mx-auto">Este diagrama ilustra cómo cada compuesto del quinteto funcional actúa sobre vías moleculares específicas. Las líneas conectan cada compuesto con sus "interruptores" o "receptores" clave dentro de la célula.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-full md:w-1/3 space-y-4">
+                        <div class="p-4 rounded-lg bg-[#FFC300]/80 border-2 border-[#FFC300] shadow">
+                            <h4 class="font-bold text-center">Curcumina</h4>
+                        </div>
+                        <div class="p-4 rounded-lg bg-[#FF5733]/80 border-2 border-[#FF5733] shadow">
+                            <h4 class="font-bold text-center">Gingerol</h4>
+                        </div>
+                        <div class="p-4 rounded-lg bg-[#00A3A3]/80 border-2 border-[#00A3A3] shadow">
+                            <h4 class="font-bold text-center">Cinamaldehído</h4>
+                        </div>
+                        <div class="p-4 rounded-lg bg-[#C70039]/80 border-2 border-[#C70039] shadow">
+                            <h4 class="font-bold text-center">Capsaicina</h4>
+                        </div>
+                        <div class="p-4 rounded-lg bg-[#0043A3]/80 border-2 border-[#0043A3] shadow">
+                            <h4 class="font-bold text-center text-white">Piperina</h4>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 grid grid-cols-2 gap-4">
+                        <div class="p-4 border rounded-lg bg-gray-100">
+                            <h5 class="font-bold">NF-κB</h5>
+                            <p class="text-xs">Interruptor Inflamatorio</p>
+                            <p class="text-xs mt-2">Afectado por: <span class="font-bold" style="color: #FFC300;">●</span> <span class="font-bold" style="color: #00A3A3;">●</span></p>
+                        </div>
+                         <div class="p-4 border rounded-lg bg-gray-100">
+                            <h5 class="font-bold">Nrf2</h5>
+                            <p class="text-xs">Defensa Antioxidante</p>
+                            <p class="text-xs mt-2">Afectado por: <span class="font-bold" style="color: #FFC300;">●</span></p>
+                        </div>
+                         <div class="p-4 border rounded-lg bg-gray-100">
+                            <h5 class="font-bold">COX-2 / 5-LOX</h5>
+                            <p class="text-xs">Enzimas del Dolor</p>
+                            <p class="text-xs mt-2">Afectado por: <span class="font-bold" style="color: #FF5733;">●</span></p>
+                        </div>
+                         <div class="p-4 border rounded-lg bg-gray-100">
+                            <h5 class="font-bold">AMPK</h5>
+                            <p class="text-xs">Regulador Energético</p>
+                            <p class="text-xs mt-2">Afectado por: <span class="font-bold" style="color: #FFC300;">●</span> <span class="font-bold" style="color: #FF5733;">●</span> <span class="font-bold" style="color: #C70039;">●</span> <span class="font-bold" style="color: #0043A3;">●</span></p>
+                        </div>
+                         <div class="p-4 border rounded-lg bg-gray-100">
+                            <h5 class="font-bold">TRPV1</h5>
+                            <p class="text-xs">Receptor de Dolor/Calor</p>
+                             <p class="text-xs mt-2">Afectado por: <span class="font-bold" style="color: #FF5733;">●</span> <span class="font-bold" style="color: #C70039;">●</span></p>
+                        </div>
+                         <div class="p-4 border rounded-lg bg-gray-100">
+                            <h5 class="font-bold">TRPA1</h5>
+                            <p class="text-xs">Receptor Vascular</p>
+                            <p class="text-xs mt-2">Afectado por: <span class="font-bold" style="color: #00A3A3;">●</span></p>
+                        </div>
+                         <div class="p-4 border rounded-lg bg-gray-100">
+                            <h5 class="font-bold">SIRT1</h5>
+                            <p class="text-xs">Longevidad Celular</p>
+                            <p class="text-xs mt-2">Afectado por: <span class="font-bold" style="color: #C70039;">●</span> <span class="font-bold" style="color: #0043A3;">●</span></p>
+                        </div>
+                         <div class="p-4 border rounded-lg bg-gray-100">
+                            <h5 class="font-bold">NLRP3</h5>
+                            <p class="text-xs">Inflamasoma</p>
+                            <p class="text-xs mt-2">Afectado por: <span class="font-bold" style="color: #0043A3;">●</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <footer class="bg-[#0043A3] text-white mt-12">
+        <div class="container mx-auto py-6 px-4 text-center">
+            <p>Esta infografía se basa en el informe "Análisis Profundo del Extracto Funcional".</p>
+            <p class="text-sm text-blue-200 mt-1">Diseñada con fines educativos e informativos. No constituye consejo médico.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const wrapLabel = (str) => {
+                const maxLength = 16;
+                if (str.length <= maxLength) return str;
+                const words = str.split(' ');
+                let currentLine = '';
+                const lines = [];
+                words.forEach(word => {
+                    if ((currentLine + word).length > maxLength) {
+                        lines.push(currentLine.trim());
+                        currentLine = '';
+                    }
+                    currentLine += word + ' ';
+                });
+                lines.push(currentLine.trim());
+                return lines;
+            };
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                }
+                return label;
+            };
+            
+            const sharedOptions = {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: { display: false },
+                        ticks: { display: false }
+                    },
+                    y: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            };
+
+            new Chart(document.getElementById('inflammationChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Curcumina', 'Gingerol', 'Cinamaldehído', 'Piperina'],
+                    datasets: [{
+                        label: 'Contribución Antiinflamatoria',
+                        data: [9, 7, 6, 5],
+                        backgroundColor: '#00A3A3',
+                        borderRadius: 4
+                    }]
+                },
+                options: sharedOptions
+            });
+
+            new Chart(document.getElementById('painChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Capsaicina', 'Gingerol', 'Cinamaldehído'],
+                    datasets: [{
+                        label: 'Contribución Analgésica',
+                        data: [9, 8, 5],
+                        backgroundColor: '#C70039',
+                        borderRadius: 4
+                    }]
+                },
+                options: sharedOptions
+            });
+
+            new Chart(document.getElementById('metabolismChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Capsaicina', 'Piperina', 'Curcumina', 'Gingerol'],
+                    datasets: [{
+                        label: 'Contribución Metabólica',
+                        data: [9, 8, 7, 6],
+                        backgroundColor: '#FF5733',
+                        borderRadius: 4
+                    }]
+                },
+                options: sharedOptions
+            });
+        });
+    </script>
+
+</body>
+</html>
