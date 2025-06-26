@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disnea y Espondilitis Anquilosante: Guía Interactiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony (Warm neutrals, muted teal, soft blue) -->
+    <!-- Application Structure Plan: A guided, single-page narrative from general dyspnea to the specifics of AS and its management. Uses a sticky nav for quick access and interactive sections (charts, animated diagrams, cards, tabs) to break down complex information into digestible, engaging pieces. This structure prioritizes user understanding and journey over mimicking the report's linear text format. -->
+    <!-- Visualization & Content Choices: Report Info: General causes -> Goal: Organize -> Viz: Donut Chart (Chart.js) -> Interaction: Hover/Tooltip; Report Info: Neuromechanical decoupling -> Goal: Explain -> Viz: HTML/CSS animated diagram -> Interaction: Visual animation; Report Info: Effort vs. Oximetry -> Goal: Compare -> Viz: Bar Chart (Chart.js); Report Info: Management strategies -> Goal: Inform/Organize -> Viz: Interactive icon-based cards/tabs -> Interaction: Click to expand. All choices avoid SVG/Mermaid and use Canvas or HTML/CSS to make abstract concepts tangible and easy to grasp. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #374151;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d9488;
+            border-bottom-color: #0d9488;
+        }
+        .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl md:text-2xl font-bold text-teal-700">Disnea y EA</h1>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#section-dyspnea" class="nav-link pb-1">¿Qué es la Disnea?</a>
+                    <a href="#section-as-link" class="nav-link pb-1">El Vínculo con la EA</a>
+                    <a href="#section-oximetry" class="nav-link pb-1">Oximetría Normal</a>
+                    <a href="#section-management" class="nav-link pb-1">Manejo y Consejos</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <div class="w-6 h-0.5 bg-gray-600 mb-1.5"></div>
+                    <div class="w-6 h-0.5 bg-gray-600"></div>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="#section-dyspnea" class="block py-2 text-center text-gray-700 hover:bg-teal-50 rounded">¿Qué es la Disnea?</a>
+                <a href="#section-as-link" class="block py-2 text-center text-gray-700 hover:bg-teal-50 rounded">El Vínculo con la EA</a>
+                <a href="#section-oximetry" class="block py-2 text-center text-gray-700 hover:bg-teal-50 rounded">Oximetría Normal</a>
+                <a href="#section-management" class="block py-2 text-center text-gray-700 hover:bg-teal-50 rounded">Manejo y Consejos</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-12">
+        
+        <section class="text-center mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Entendiendo la Disnea y la Espondilitis Anquilosante</h2>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-600">Una guía interactiva para explorar la compleja relación entre la dificultad para respirar y esta condición autoinmune.</p>
+        </section>
+
+        <section id="section-dyspnea" class="mb-16 md:mb-24 section-fade-in">
+            <div class="text-center mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold text-teal-800 mb-2">1. ¿Qué es la Disnea?</h3>
+                <p class="max-w-3xl mx-auto text-gray-600">Esta sección introduce el concepto de disnea, o dificultad para respirar. Exploraremos su definición como una experiencia subjetiva y visualizaremos sus múltiples causas a través de un gráfico interactivo, ayudando a comprender que su origen no siempre es puramente pulmonar.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div class="text-gray-700 space-y-4">
+                    <p class="text-lg">La disnea es la <span class="font-semibold text-teal-700">sensación subjetiva de malestar al respirar</span>. No es una enfermedad, sino un síntoma. Los pacientes la describen como "falta de aire", "asfixia", "sofoco" u "opresión en el pecho".</p>
+                    <p>Su origen es multifactorial. Aunque a menudo pensamos en los pulmones, el corazón, los músculos, e incluso el estado de ánimo, pueden ser la causa. Esta complejidad es clave para entender por qué alguien puede sentir disnea incluso con una función pulmonar aparentemente normal.</p>
+                </div>
+                <div>
+                    <h4 class="text-center font-semibold text-lg mb-4">Causas Generales de la Disnea</h4>
+                    <div class="chart-container">
+                        <canvas id="dyspneaCausesChart"></canvas>
+                    </div>
+                     <p class="text-center text-sm text-gray-500 mt-2">Pasa el cursor sobre el gráfico para ver ejemplos.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-as-link" class="mb-16 md:mb-24 section-fade-in">
+            <div class="text-center mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold text-teal-800 mb-2">2. El Vínculo con la Espondilitis Anquilosante (EA)</h3>
+                <p class="max-w-3xl mx-auto text-gray-600">Aquí conectamos la disnea con la Espondilitis Anquilosante (EA). Analizaremos cómo la rigidez de la caja torácica, una consecuencia directa de la EA, aumenta el trabajo respiratorio. Mediante diagramas y tarjetas interactivas, desglosaremos los principales mecanismos que generan esta sensación en los pacientes.</p>
+            </div>
+            <div class="grid md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-3 space-y-4">
+                     <p class="text-lg">La EA es una enfermedad autoinmune que causa inflamación principalmente en la columna vertebral. Con el tiempo, esta inflamación puede llevar a la <span class="font-semibold text-teal-700">fusión de las vértebras y las articulaciones que conectan las costillas a la columna.</span></p>
+                    <p>Como resultado, la caja torácica pierde flexibilidad y se vuelve rígida, limitando su capacidad de expandirse durante la inspiración. Respirar se convierte en un esfuerzo físico mayor.</p>
+                    <div class="mt-6 p-6 bg-white rounded-xl shadow-lg">
+                        <h4 class="font-bold text-lg mb-4 text-center">Principales Contribuyentes a la Disnea en la EA</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                           <div class="p-4 bg-teal-50 rounded-lg">
+                               <p class="font-semibold">Restricción Mecánica</p>
+                               <p class="text-sm text-gray-600">La rigidez torácica obliga a los músculos a trabajar mucho más para lograr una ventilación adecuada.</p>
+                           </div>
+                           <div class="p-4 bg-teal-50 rounded-lg">
+                               <p class="font-semibold">Desacondicionamiento</p>
+                               <p class="text-sm text-gray-600">El dolor y la rigidez limitan la actividad física, debilitando el cuerpo y haciendo que el esfuerzo se sienta mayor.</p>
+                           </div>
+                           <div class="p-4 bg-teal-50 rounded-lg">
+                               <p class="font-semibold">Afectación Cardíaca</p>
+                               <p class="text-sm text-gray-600">En algunos casos, la inflamación puede afectar al corazón y a la aorta, contribuyendo a la disnea.</p>
+                           </div>
+                           <div class="p-4 bg-teal-50 rounded-lg">
+                               <p class="font-semibold">Factores Psicogénicos</p>
+                               <p class="text-sm text-gray-600">La ansiedad por la enfermedad crónica puede intensificar la percepción de falta de aire.</p>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-2 space-y-4 text-center">
+                    <h4 class="font-semibold">Expansión Torácica</h4>
+                    <div class="flex justify-around items-center h-48 bg-white p-4 rounded-xl shadow">
+                        <div>
+                            <p class="mb-2 font-semibold">Normal</p>
+                            <div class="w-20 h-28 bg-blue-200 rounded-t-full mx-auto relative flex items-center justify-center transition-transform duration-1000" id="normal-chest">
+                                <span class="text-blue-800 text-sm">Expansión</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="mb-2 font-semibold">En EA</p>
+                            <div class="w-20 h-28 bg-red-200 rounded-t-full mx-auto relative flex items-center justify-center transition-transform duration-1000" id="as-chest">
+                                <span class="text-red-800 text-sm">Rígido</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500">La EA puede limitar la expansión natural del pecho.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-oximetry" class="mb-16 md:mb-24 section-fade-in">
+            <div class="text-center mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold text-teal-800 mb-2">3. El Misterio de la Oximetría Normal</h3>
+                <p class="max-w-3xl mx-auto text-gray-600">Esta es la pregunta central: ¿por qué se siente falta de aire si el oxímetro marca normal? Esta sección desvela el concepto de "desacoplamiento neuromecánico". A través de un gráfico comparativo y una analogía simple, explicaremos que la disnea en la EA se relaciona más con la percepción del esfuerzo que con una falta real de oxígeno en la sangre.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div class="order-2 md:order-1">
+                     <h4 class="text-center font-semibold text-lg mb-4">Esfuerzo Percibido vs. Saturación de O₂</h4>
+                    <div class="chart-container" style="max-width: 500px;">
+                         <canvas id="effortVsOximetryChart"></canvas>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 space-y-4">
+                    <p class="text-lg">La clave está en el <span class="font-semibold text-teal-700">"desacoplamiento neuromecánico"</span>. El cerebro envía una señal fuerte para respirar (demanda), pero la caja torácica rígida no puede responder con la misma magnitud (respuesta mecánica limitada).</p>
+                    <p>El cerebro percibe esta <span class="font-semibold text-teal-700">discrepancia</span> como un gran esfuerzo, generando la sensación de disnea. Es como intentar acelerar un coche con el freno de mano puesto. El motor (los músculos respiratorios) se esfuerza, pero el coche (el tórax) apenas se mueve como debería.</p>
+                    <p>Mientras el intercambio de gases en los pulmones sea eficiente, la saturación de oxígeno (oximetría) se mantendrá normal. <span class="font-semibold">La disnea surge del esfuerzo percibido, no de la falta de oxígeno en sangre.</span></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-management" class="section-fade-in">
+             <div class="text-center mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold text-teal-800 mb-2">4. Estrategias de Manejo y Consejos Prácticos</h3>
+                <p class="max-w-3xl mx-auto text-gray-600">Finalmente, exploramos las formas de mejorar. Esta sección interactiva, dividida en pestañas, detalla tanto los tratamientos médicos disponibles como las estrategias de autocuidado y estilo de vida. El objetivo es ofrecer una guía clara y accionable para mejorar la movilidad, reducir los síntomas y aumentar la calidad de vida.</p>
+            </div>
+            <div class="w-full max-w-4xl mx-auto">
+                <div class="mb-4 flex justify-center border-b border-gray-200">
+                    <button data-tab="medico" class="tab-button py-4 px-6 block hover:text-teal-600 focus:outline-none text-teal-600 border-b-2 font-medium border-teal-600">Manejo Médico</button>
+                    <button data-tab="autocuidado" class="tab-button py-4 px-6 block hover:text-teal-600 focus:outline-none text-gray-500">Autocuidado y Estilo de Vida</button>
+                </div>
+                <div id="tab-content">
+                    <div data-tab-content="medico" class="p-4 space-y-4">
+                        <p>El tratamiento farmacológico es fundamental para controlar la inflamación subyacente que causa la rigidez y el dolor. El objetivo es frenar la progresión de la enfermedad y aliviar los síntomas.</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong>Antiinflamatorios no esteroideos (AINE):</strong> Suelen ser la primera línea de tratamiento para el dolor y la inflamación.</li>
+                            <li><strong>Terapias biológicas (Inhibidores de TNF, IL-17):</strong> Medicamentos avanzados que actúan sobre vías específicas del sistema inmunitario para reducir la inflamación de forma muy eficaz.</li>
+                            <li><strong>Inhibidores de JAK:</strong> Una nueva clase de medicamentos orales que también modulan la respuesta inmunitaria.</li>
+                            <li><strong>Otros fármacos (Sulfasalazina, Metotrexato):</strong> Útiles especialmente cuando hay afectación de articulaciones periféricas.</li>
+                        </ul>
+                    </div>
+                    <div data-tab-content="autocuidado" class="hidden p-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="card bg-white p-6 rounded-lg shadow">
+                                <h4 class="font-bold text-lg mb-2">Fisioterapia</h4>
+                                <p class="text-sm">Ejercicios específicos para mantener la movilidad de la columna y la caja torácica. La respiración profunda es clave.</p>
+                            </div>
+                            <div class="card bg-white p-6 rounded-lg shadow">
+                                <h4 class="font-bold text-lg mb-2">Ejercicio Regular</h4>
+                                <p class="text-sm">Actividades como la natación ayudan a la expansión del pecho y a combatir el desacondicionamiento sin impacto.</p>
+                            </div>
+                            <div class="card bg-white p-6 rounded-lg shadow">
+                                <h4 class="font-bold text-lg mb-2">Buena Postura</h4>
+                                <p class="text-sm">Mantenerse erguido y dormir sobre una superficie firme previene deformidades y mejora la función pulmonar.</p>
+                            </div>
+                            <div class="card bg-white p-6 rounded-lg shadow">
+                                <h4 class="font-bold text-lg mb-2">Dejar de Fumar</h4>
+                                <p class="text-sm">Es crucial. Fumar daña los pulmones y empeora la restricción respiratoria causada por la EA.</p>
+                            </div>
+                            <div class="card bg-white p-6 rounded-lg shadow">
+                                <h4 class="font-bold text-lg mb-2">Seguimiento Médico</h4>
+                                <p class="text-sm">Visitas regulares al reumatólogo y oftalmólogo para monitorizar la enfermedad y sus complicaciones.</p>
+                            </div>
+                             <div class="card bg-white p-6 rounded-lg shadow">
+                                <h4 class="font-bold text-lg mb-2">Apoyo Psicológico</h4>
+                                <p class="text-sm">Manejar la ansiedad y el estrés es fundamental, ya que pueden empeorar la percepción de disnea.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white mt-16 border-t">
+        <div class="container mx-auto py-6 px-6 text-center text-gray-500">
+            <p class="text-sm">Esta aplicación es una herramienta informativa basada en el informe "Disnea y Espondilitis Anquilosante". No reemplaza el consejo médico profesional. Consulte siempre a su médico para el diagnóstico y tratamiento.</p>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Mobile Menu Toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Animate chest expansion simulation
+    const normalChest = document.getElementById('normal-chest');
+    const asChest = document.getElementById('as-chest');
+    setInterval(() => {
+        normalChest.style.transform = 'scaleY(1.15) scaleX(1.05)';
+        asChest.style.transform = 'scaleY(1.02) scaleX(1.01)';
+        setTimeout(() => {
+            normalChest.style.transform = 'scaleY(1) scaleX(1)';
+            asChest.style.transform = 'scaleY(1) scaleX(1)';
+        }, 1500);
+    }, 3000);
+    
+    // Fade in sections on scroll
+    const sections = document.querySelectorAll('.section-fade-in');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+
+    // Navigation Active State
+    const navLinks = document.querySelectorAll('.nav-link');
+    const allSections = document.querySelectorAll('main section');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        allSections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 100) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Tabs for management section
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('[data-tab-content]');
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tab = button.dataset.tab;
+            
+            tabButtons.forEach(btn => {
+                btn.classList.remove('text-teal-600', 'border-teal-600', 'font-medium');
+                btn.classList.add('text-gray-500');
+            });
+            button.classList.add('text-teal-600', 'border-teal-600', 'font-medium');
+            button.classList.remove('text-gray-500');
+
+            tabContents.forEach(content => {
+                if (content.dataset.tabContent === tab) {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
+            });
+        });
+    });
+
+    // Chart.js Implementations
+    // Chart 1: Dyspnea Causes
+    const dyspneaCausesCtx = document.getElementById('dyspneaCausesChart');
+    if (dyspneaCausesCtx) {
+        new Chart(dyspneaCausesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Respiratoria', 'Cardíaca', 'Neuromuscular', 'Psicogénica', 'Sistémica'],
+                datasets: [{
+                    label: 'Causas de Disnea',
+                    data: [30, 25, 15, 10, 20],
+                    backgroundColor: [
+                        'rgba(13, 148, 136, 0.7)',
+                        'rgba(239, 68, 68, 0.7)',
+                        'rgba(59, 130, 246, 0.7)',
+                        'rgba(249, 115, 22, 0.7)',
+                        'rgba(107, 114, 128, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(13, 148, 136, 1)',
+                        'rgba(239, 68, 68, 1)',
+                        'rgba(59, 130, 246, 1)',
+                        'rgba(249, 115, 22, 1)',
+                        'rgba(107, 114, 128, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                let examples = {
+                                    'Respiratoria': 'EPOC, asma, neumonía',
+                                    'Cardíaca': 'Insuficiencia cardíaca',
+                                    'Neuromuscular': 'Debilidad muscular',
+                                    'Psicogénica': 'Ansiedad, pánico',
+                                    'Sistémica': 'Anemia, obesidad'
+                                };
+                                if (label) {
+                                    return label + ': ' + examples[label];
+                                }
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Chart 2: Effort vs. Oximetry
+    const effortVsOximetryCtx = document.getElementById('effortVsOximetryChart');
+    if (effortVsOximetryCtx) {
+        new Chart(effortVsOximetryCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Saturación de O₂ (%)', 'Esfuerzo Respiratorio (Subjetivo)'],
+                datasets: [{
+                    label: 'Comparativa en EA',
+                    data: [98, 85], // 98% O2, 85/100 effort
+                    backgroundColor: [
+                        'rgba(13, 148, 136, 0.7)',
+                        'rgba(239, 68, 68, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(13, 148, 136, 1)',
+                        'rgba(239, 68, 68, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                     tooltip: {
+                        enabled: false
+                    }
+                }
+            }
+        });
+    }
+
+});
+</script>
+</body>
+</html>

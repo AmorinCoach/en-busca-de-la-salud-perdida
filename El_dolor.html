@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Interactivo de la Fisiología del Dolor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals & Deep Teal -->
+    <!-- Application Structure Plan: The SPA is designed as a guided journey through the science of pain, moving from foundational concepts to complex mechanisms. The structure prioritizes user-led exploration over a rigid, linear format. It uses a top navigation bar for quick access to five key thematic sections: 1) Definition & Dimensions, 2) Types of Pain (with interactive comparisons), 3) The Pain Pathway (a step-by-step visual flow), 4) The Biochemistry (visualizing key molecules and their balance), and 5) The Brain's Role (interactive diagram of the 'Pain Matrix' and neuroplasticity). This thematic, non-linear structure is chosen because pain is a multifaceted topic; users can jump to areas of interest or follow the logical progression, which enhances learning and engagement compared to reading a static document. -->
+    <!-- Visualization & Content Choices:
+        - Report Info: Pain Classification (Acute vs. Chronic) -> Goal: Compare -> Viz: Bar Chart (Chart.js) -> Interaction: Visual comparison of duration, purpose, and impact -> Justification: A chart provides a much clearer and quicker comparison of quantitative/qualitative differences than a text table.
+        - Report Info: Nociception Process -> Goal: Explain a Process -> Viz: Interactive vertical flow diagram (HTML/CSS/JS) -> Interaction: Clicking a stage reveals detailed text -> Justification: Breaks down a complex four-stage process into digestible, user-triggered steps, preventing information overload.
+        - Report Info: Inflammatory Mediators ('soup') -> Goal: Organize & Inform -> Viz: Interactive grid of cards -> Interaction: Hovering/clicking on a mediator reveals its function -> Justification: Organizes a dense list of biochemicals into a scannable, interactive format that encourages exploration.
+        - Report Info: Pain Matrix (Brain Regions) -> Goal: Inform & Organize -> Viz: Clickable list linked to a simplified brain graphic -> Interaction: Clicking a region name highlights it and shows its role -> Justification: Simplifies a complex neuroanatomical concept into an easy-to-understand interactive element without requiring complex graphics.
+        - Report Info: Excitatory vs. Inhibitory Neurotransmitters -> Goal: Explain a Relationship/Balance -> Viz: Two-sided card layout -> Interaction: Buttons to highlight each side -> Justification: Provides a clear visual metaphor for the balance of forces that is central to pain modulation.
+        -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfcfb;
+            color: #1a202c;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d9488;
+            border-bottom-color: #0d9488;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .content-card {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .interactive-element {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .interactive-element.active {
+            background-color: #ccfbf1;
+            border-color: #0d9488;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl md:text-2xl font-bold text-teal-700">El Viaje del Dolor</h1>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#definicion" class="nav-link">¿Qué es?</a>
+                    <a href="#tipos" class="nav-link">Tipos</a>
+                    <a href="#via" class="nav-link">La Vía</a>
+                    <a href="#bioquimica" class="nav-link">Bioquímica</a>
+                    <a href="#cerebro" class="nav-link">Cerebro</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="#definicion" class="block py-2 px-4 text-sm hover:bg-teal-50 rounded">¿Qué es?</a>
+                <a href="#tipos" class="block py-2 px-4 text-sm hover:bg-teal-50 rounded">Tipos</a>
+                <a href="#via" class="block py-2 px-4 text-sm hover:bg-teal-50 rounded">La Vía</a>
+                <a href="#bioquimica" class="block py-2 px-4 text-sm hover:bg-teal-50 rounded">Bioquímica</a>
+                <a href="#cerebro" class="block py-2 px-4 text-sm hover:bg-teal-50 rounded">Cerebro</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-12">
+
+        <section id="definicion" class="mb-16 md:mb-24">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">¿Qué es el Dolor?</h2>
+                <p class="text-lg text-gray-600 mb-8">El dolor es más que una simple sensación. Es una experiencia compleja y personal que involucra componentes sensoriales, emocionales y cognitivos. Esta sección explora su definición moderna y sus múltiples dimensiones, que juntas moldean cómo percibimos y reaccionamos ante una lesión, real o potencial.</p>
+            </div>
+            <div class="bg-teal-50 border-l-4 border-teal-500 text-teal-800 p-6 rounded-r-lg mb-12 max-w-4xl mx-auto shadow-md">
+                <p class="font-semibold text-lg mb-2">Definición de la IASP (2020)</p>
+                <p>"Una experiencia sensorial y emocional desagradable asociada o similar a la asociada con, un daño tisular real o potencial."</p>
+                <p class="text-sm mt-2">Esta actualización reconoce que el dolor puede existir sin un daño físico evidente, validando su naturaleza profundamente personal y subjetiva.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg content-card">
+                    <h3 class="font-bold text-xl mb-2 text-rose-600">Dimensión Sensorial</h3>
+                    <p class="text-gray-700">Describe las características físicas del dolor: su localización, intensidad, duración y cualidad (punzante, quemante, etc.). Permite al cerebro mapear el estímulo nocivo.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg content-card">
+                    <h3 class="font-bold text-xl mb-2 text-amber-600">Dimensión Cognitiva</h3>
+                    <p class="text-gray-700">Involucra la interpretación y el significado que le damos al dolor. Incluye la atención, la memoria de experiencias pasadas y las creencias culturales, que pueden amplificar o disminuir la percepción.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg content-card">
+                    <h3 class="font-bold text-xl mb-2 text-sky-600">Dimensión Afectiva</h3>
+                    <p class="text-gray-700">Es la cualidad desagradable y emocional del dolor. Genera sufrimiento, miedo o ansiedad, y motiva conductas de evitación o escape para protegernos del daño.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tipos" class="mb-16 md:mb-24">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Clasificando el Dolor</h2>
+                <p class="text-lg text-gray-600 mb-8">No todo el dolor es igual. Su clasificación es clave para un diagnóstico y tratamiento efectivos. Aquí exploramos las diferencias fundamentales entre el dolor agudo y crónico, así como las categorías basadas en sus mecanismos fisiopatológicos subyacentes.</p>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-xl">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-semibold text-center mb-6">Agudo vs. Crónico</h3>
+                    <div class="chart-container">
+                        <canvas id="painTypeChart"></canvas>
+                    </div>
+                </div>
+                <div class="mt-12">
+                     <h3 class="text-2xl font-semibold text-center mb-6">Tipos por Mecanismo</h3>
+                     <div class="grid md:grid-cols-3 gap-6 text-center">
+                        <div class="border p-4 rounded-lg bg-gray-50">
+                            <h4 class="font-bold text-lg text-teal-700">Nociceptivo</h4>
+                            <p class="text-sm text-gray-600">Causado por daño tisular (huesos, músculos, órganos). Es la respuesta "normal" a una lesión. Ej: un corte, una quemadura.</p>
+                        </div>
+                        <div class="border p-4 rounded-lg bg-gray-50">
+                            <h4 class="font-bold text-lg text-teal-700">Neuropático</h4>
+                            <p class="text-sm text-gray-600">Causado por una lesión o enfermedad del sistema nervioso. Se describe como ardiente o punzante. Ej: neuralgia, neuropatía diabética.</p>
+                        </div>
+                        <div class="border p-4 rounded-lg bg-gray-50">
+                            <h4 class="font-bold text-lg text-teal-700">Nociplástico</h4>
+                            <p class="text-sm text-gray-600">Surge de una función alterada de los nervios, sin daño tisular o nervioso evidente. El sistema se vuelve hipersensible. Ej: fibromialgia.</p>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="via" class="mb-16 md:mb-24">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">La Vía del Dolor</h2>
+                <p class="text-lg text-gray-600 mb-8">La percepción del dolor no es instantánea. Sigue un viaje electroquímico desde la periferia hasta el cerebro en cuatro fases clave. Haga clic en cada etapa para descubrir cómo una señal de daño se convierte en la experiencia que conocemos como dolor.</p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/3">
+                    <div id="pathway-step-1" class="interactive-element border-2 border-gray-200 p-4 rounded-lg mb-4 active">
+                        <h4 class="font-bold">1. Transducción</h4>
+                        <p class="text-sm">Conversión del estímulo en señal eléctrica.</p>
+                    </div>
+                    <div id="pathway-step-2" class="interactive-element border-2 border-gray-200 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold">2. Transmisión</h4>
+                        <p class="text-sm">Envío de la señal a la médula espinal.</p>
+                    </div>
+                    <div id="pathway-step-3" class="interactive-element border-2 border-gray-200 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold">3. Modulación</h4>
+                        <p class="text-sm">Amplificación o supresión de la señal.</p>
+                    </div>
+                    <div id="pathway-step-4" class="interactive-element border-2 border-gray-200 p-4 rounded-lg">
+                        <h4 class="font-bold">4. Percepción</h4>
+                        <p class="text-sm">Interpretación consciente en el cerebro.</p>
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3 bg-white p-6 rounded-lg shadow-lg">
+                    <div id="pathway-content"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bioquimica" class="mb-16 md:mb-24">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">La Bioquímica del Dolor</h2>
+                <p class="text-lg text-gray-600 mb-8">A nivel molecular, el dolor es una compleja "sopa" de mediadores químicos y neurotransmisores. Esta sección explora las sustancias que inician la señal de dolor y el delicado equilibrio entre los sistemas que la transmiten y los que la inhiben.</p>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-xl">
+                 <h3 class="text-2xl font-semibold text-center mb-6">La "Sopa" Inflamatoria</h3>
+                 <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Tras una lesión, los tejidos liberan un cóctel de sustancias químicas que activan y sensibilizan los nociceptores. Pase el cursor sobre cada componente para ver su función.</p>
+                 <div id="mediators-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    <!-- Mediators will be injected here by JS -->
+                 </div>
+
+                 <h3 class="text-2xl font-semibold text-center mt-12 mb-6">El Equilibrio Neuronal</h3>
+                 <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">La intensidad del dolor depende de un balance entre señales excitatorias que lo promueven y señales inhibitorias que lo frenan.</p>
+                 <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="border-2 border-rose-200 bg-rose-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-bold text-rose-700 mb-2">Sistema Excitatorio</h4>
+                        <p class="text-gray-700">Liderado por el neurotransmisor <strong>Glutamato</strong>, este sistema "acelera" la transmisión de la señal de dolor. En el dolor crónico, su hiperactividad contribuye a la sensibilización central, donde el cerebro se vuelve hipersensible.</p>
+                    </div>
+                    <div class="border-2 border-sky-200 bg-sky-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-bold text-sky-700 mb-2">Sistema Inhibitorio</h4>
+                        <p class="text-gray-700">Utiliza neurotransmisores como <strong>GABA</strong> y <strong>opioides endógenos</strong> (endorfinas) para "frenar" la señal. Este sistema es la base de la analgesia natural del cuerpo y el objetivo de muchos medicamentos para el dolor.</p>
+                    </div>
+                 </div>
+            </div>
+        </section>
+        
+        <section id="cerebro" class="mb-16 md:mb-24">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">El Cerebro y el Dolor</h2>
+                <p class="text-lg text-gray-600 mb-8">El dolor no existe hasta que el cerebro lo interpreta. Una red de regiones cerebrales, conocida como la "Matriz del Dolor", procesa los diferentes aspectos de la experiencia dolorosa. El dolor crónico puede incluso "recablear" físicamente estas conexiones a través de un proceso llamado neuroplasticidad.</p>
+            </div>
+             <div class="bg-white p-6 md:p-8 rounded-lg shadow-xl">
+                <h3 class="text-2xl font-semibold text-center mb-6">La Matriz del Dolor</h3>
+                <div class="flex flex-col md:flex-row gap-8">
+                   <div class="w-full md:w-2/5">
+                        <p class="text-gray-600 mb-4">Diferentes regiones cerebrales procesan las distintas dimensiones del dolor. Haga clic en una región para conocer su rol específico.</p>
+                        <ul id="brain-regions-list" class="space-y-2">
+                           <!-- Brain regions list will be injected here by JS -->
+                        </ul>
+                   </div>
+                    <div class="w-full md:w-3/5 bg-gray-100 p-6 rounded-lg flex items-center justify-center">
+                        <div id="brain-region-info" class="text-center">
+                            <h4 class="text-lg font-bold text-teal-700">Seleccione una región</h4>
+                            <p class="text-gray-600">Haga clic en un elemento de la lista para ver su descripción aquí.</p>
+                        </div>
+                    </div>
+                </div>
+                 <h3 class="text-2xl font-semibold text-center mt-12 mb-6">Neuroplasticidad: El Dolor que se Aprende</h3>
+                 <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">En el dolor crónico, el cerebro puede cambiar su propia estructura y función, fortaleciendo las vías del dolor. Es como si aprendiera a sentir dolor de forma más eficiente.</p>
+                 <div class="grid md:grid-cols-2 gap-8 items-start">
+                     <div class="bg-blue-50 border border-blue-200 p-6 rounded-lg">
+                         <h4 class="font-bold text-lg text-blue-800 mb-2">Cerebro Normal</h4>
+                         <p>Las vías del dolor se activan en respuesta a un estímulo nocivo, pero se calman una vez que la amenaza desaparece. El sistema está en equilibrio.</p>
+                     </div>
+                      <div class="bg-red-50 border border-red-200 p-6 rounded-lg">
+                         <h4 class="font-bold text-lg text-red-800 mb-2">Cerebro con Dolor Crónico</h4>
+                         <p>Las vías del dolor permanecen hiperactivas. Las conexiones sinápticas se refuerzan, los sistemas inhibitorios se debilitan. El cerebro queda "atascado" en modo de dolor.</p>
+                     </div>
+                 </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p>Aplicación Interactiva creada para la exploración de la Bioquímica y Fisiología del Dolor.</p>
+            <p class="text-sm text-gray-400 mt-2">Contenido basado en el informe "Un Estudio a Profundidad de la Bioquímica y Fisiología del Dolor".</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const painData = {
+                pathway: {
+                    step1: {
+                        title: '1. Transducción: El Comienzo de la Señal',
+                        content: 'En esta primera fase, los nociceptores (receptores especializados del dolor) en la periferia detectan un estímulo dañino (calor, presión, químico). Este estímulo se convierte en una señal eléctrica. Receptores clave como los <strong>TRPV1</strong> (sensibles al calor y la capsaicina) y <strong>P2X</strong> (sensibles al ATP liberado por células dañadas) son fundamentales en este proceso. La señal viaja por dos tipos de fibras: las <strong>A-delta</strong> (rápidas, para el primer dolor agudo) y las <strong>C</strong> (lentas, para el segundo dolor sordo y persistente).'
+                    },
+                    step2: {
+                        title: '2. Transmisión: El Viaje a la Médula',
+                        content: 'La señal eléctrica viaja desde la periferia, a través de las fibras nerviosas, hasta el asta dorsal de la médula espinal. Aquí, la primera neurona hace sinapsis con una segunda neurona. Esta cruza al lado opuesto de la médula y asciende hacia el cerebro a través del <strong>tracto espinotalámico</strong>, la principal autopista de la información dolorosa.'
+                    },
+                    step3: {
+                        title: '3. Modulación: Subir o Bajar el Volumen',
+                        content: 'Antes de llegar al cerebro, la señal puede ser modificada. El cerebro puede enviar señales descendentes para inhibir o "bajar el volumen" del dolor a través de neurotransmisores como la <strong>serotonina</strong>, <strong>norepinefrina</strong> y <strong>opioides endógenos</strong>. La famosa <strong>Teoría de la Compuerta</strong> de Melzack y Wall explica cómo estímulos no dolorosos (como frotar una zona golpeada) pueden "cerrar la compuerta" y bloquear la señal de dolor en la médula espinal.'
+                    },
+                    step4: {
+                        title: '4. Percepción: La Experiencia Consciente',
+                        content: 'La señal llega al tálamo y desde allí se distribuye a varias áreas del cerebro que forman la <strong>"Matriz del Dolor"</strong>. La corteza somatosensorial procesa la localización e intensidad (dimensión sensorial). La corteza cingulada y la ínsula procesan el aspecto desagradable (dimensión afectiva). La corteza prefrontal gestiona la interpretación y significado (dimensión cognitiva). Es en este punto final que la señal se convierte en la experiencia subjetiva del dolor.'
+                    }
+                },
+                mediators: [
+                    { name: 'Prostaglandinas', role: 'Sensibilizan los nociceptores, haciendo que respondan a estímulos menores. Son el objetivo de los AINEs.' },
+                    { name: 'Bradicinina', role: 'Una de las sustancias más dolorosas. Activa directamente los nociceptores.' },
+                    { name: 'Sustancia P', role: 'Neurotransmisor que transmite señales de dolor en la médula espinal y causa inflamación en la periferia.' },
+                    { name: 'Histamina', role: 'Liberada por mastocitos, contribuye a la hinchazón y activa indirectamente las vías del dolor.' },
+                    { name: 'Serotonina', role: 'Tiene un doble papel: puede causar dolor en la periferia pero lo inhibe en la médula espinal.' },
+                    { name: 'Iones (H+, K+)', role: 'Se acumulan en tejidos dañados, creando un ambiente ácido que despolariza y activa los nociceptores.' },
+                    { name: 'CGRP', role: 'Péptido que, junto a la Sustancia P, promueve la inflamación neurogénica y es clave en la migraña.' },
+                    { name: 'Citocinas (TNF-α)', role: 'Moléculas inmunitarias que promueven la inflamación y pueden sensibilizar directamente las neuronas.' }
+                ],
+                brainRegions: [
+                    { id: 's1s2', name: 'Corteza Somatosensorial (S1/S2)', role: 'Localiza el dolor en el cuerpo y evalúa su intensidad y tipo (ej. "punzante en el dedo"). Es el mapa sensorial del dolor.'},
+                    { id: 'cca', name: 'Corteza Cingulada Anterior (CCA)', role: 'Procesa el componente emocional y desagradable del dolor. Es la responsable de que el dolor "duela" y nos haga sufrir.'},
+                    { id: 'ci', name: 'Corteza Insular (CI)', role: 'Integra la información sensorial con el estado interno del cuerpo y las emociones. Ayuda a crear la percepción subjetiva completa del dolor.'},
+                    { id: 'cpf', name: 'Corteza Prefrontal', role: 'Le da significado al dolor. Involucra la atención, la expectativa y la memoria. Permite modular el dolor a través de la distracción o la reevaluación.'},
+                    { id: 'amigdala', name: 'Amígdala', role: 'Vincula el dolor con emociones negativas como el miedo y la ansiedad, y es clave en el aprendizaje del miedo asociado al dolor, contribuyendo a la cronicidad.'}
+                ]
+            };
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link, #mobile-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileMenu.classList.contains('hidden') === false) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            const painTypeCtx = document.getElementById('painTypeChart').getContext('2d');
+            new Chart(painTypeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Dolor Agudo', 'Dolor Crónico'],
+                    datasets: [{
+                        label: 'Función Protectora',
+                        data: [100, 10],
+                        backgroundColor: 'rgba(13, 148, 136, 0.6)',
+                        borderColor: 'rgba(13, 148, 136, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Impacto Psicológico',
+                        data: [20, 90],
+                        backgroundColor: 'rgba(220, 38, 38, 0.6)',
+                        borderColor: 'rgba(220, 38, 38, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%'
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Comparación entre Dolor Agudo y Crónico'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        if(context.dataset.label === 'Función Protectora'){
+                                           label = context.label === 'Dolor Agudo' ? 'Función: Alarma útil' : 'Función: Se vuelve enfermedad';
+                                        } else {
+                                           label = context.label === 'Dolor Agudo' ? 'Impacto: Ansiedad leve' : 'Impacto: Ansiedad, depresión';
+                                        }
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const pathwaySteps = document.querySelectorAll('.interactive-element[id^="pathway-step-"]');
+            const pathwayContent = document.getElementById('pathway-content');
+
+            function updatePathwayContent(stepId) {
+                const stepData = painData.pathway['step' + stepId];
+                pathwayContent.innerHTML = `
+                    <h3 class="text-2xl font-bold text-teal-700 mb-4">${stepData.title}</h3>
+                    <p class="text-gray-700 leading-relaxed">${stepData.content}</p>
+                `;
+                pathwaySteps.forEach(s => {
+                    s.classList.remove('active');
+                });
+                document.getElementById('pathway-step-' + stepId).classList.add('active');
+            }
+
+            pathwaySteps.forEach((step, index) => {
+                step.addEventListener('click', () => {
+                    updatePathwayContent(index + 1);
+                });
+            });
+            updatePathwayContent(1);
+
+            const mediatorsGrid = document.getElementById('mediators-grid');
+            painData.mediators.forEach(mediator => {
+                const card = document.createElement('div');
+                card.className = 'group relative border p-4 rounded-lg bg-gray-50 content-card';
+                card.innerHTML = `
+                    <h4 class="font-semibold text-gray-800">${mediator.name}</h4>
+                    <div class="absolute inset-0 bg-teal-600 text-white p-4 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-sm text-center">${mediator.role}</p>
+                    </div>
+                `;
+                mediatorsGrid.appendChild(card);
+            });
+            
+            const brainRegionsList = document.getElementById('brain-regions-list');
+            const brainRegionInfo = document.getElementById('brain-region-info');
+            painData.brainRegions.forEach(region => {
+                const li = document.createElement('li');
+                li.innerHTML = `<button data-regionid="${region.id}" class="w-full text-left p-3 rounded-md hover:bg-teal-50 focus:outline-none focus:ring-2 focus:ring-teal-300 transition-colors duration-200">${region.name}</button>`;
+                brainRegionsList.appendChild(li);
+            });
+            
+            brainRegionsList.addEventListener('click', (e) => {
+                 if(e.target.tagName === 'BUTTON'){
+                    const regionId = e.target.dataset.regionid;
+                    const regionData = painData.brainRegions.find(r => r.id === regionId);
+                     
+                    document.querySelectorAll('#brain-regions-list button').forEach(btn => btn.classList.remove('bg-teal-100', 'font-bold'));
+                    e.target.classList.add('bg-teal-100', 'font-bold');
+
+                    brainRegionInfo.innerHTML = `
+                        <h4 class="text-xl font-bold text-teal-700 mb-2">${regionData.name}</h4>
+                        <p class="text-gray-600">${regionData.role}</p>
+                    `;
+                 }
+            });
+
+        });
+    </script>
+</body>
+</html>

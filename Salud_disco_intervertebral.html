@@ -1,0 +1,479 @@
+!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Interactiva para la Salud del Disco Intervertebral</title>
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: The application is structured as a narrative journey in five thematic sections to maximize user engagement and understanding. 1) 'La Base': Introduces the disc's anatomy. 2) 'El Círculo Vicioso': Visually explains the core problem of degeneration. 3) 'Tu Kit Nutracéutico': An interactive dashboard to explore beneficial compounds. 4) 'Saboteadores': Highlights harmful lifestyle factors. 5) 'Estrategia Integral': Provides a holistic action plan. This thematic, story-driven structure was chosen over a linear report format to make the complex scientific information more digestible, relatable, and actionable for the user. -->
+    <!-- Visualization & Content Choices: The application uses a mix of visualizations, all rendered on Canvas via Chart.js, to match the information's goal. [Inform] Donut chart for disc composition. [Organize/Relate] Custom HTML/CSS/JS diagram for the vicious cycle. [Compare/Inform] Bar and Radar charts for nutraceutical efficacy. [Compare/Inform] Interactive horizontal bar chart for lifestyle saboteurs' impact. [Organize] Styled HTML cards for the final strategy. This selection avoids SVG/Mermaid and uses interactivity (tabs, clickable elements) to reveal information progressively, preventing cognitive overload and enhancing user exploration within the designed structure. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background-color: #F8F7F4;
+            color: #4A4A4A;
+        }
+        h1, h2, h3 {
+            font-family: 'Roboto Slab', serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link.active {
+            color: #A37E2C;
+            border-bottom: 2px solid #A37E2C;
+            transform: translateY(-2px);
+        }
+        .tab.active {
+            background-color: #A37E2C;
+            color: #FFFFFF;
+        }
+        .flow-node {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .flow-node.active, .flow-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(163, 126, 44, 0.3), 0 4px 6px -2px rgba(163, 126, 44, 0.1);
+            border-color: #A37E2C;
+        }
+        .saboteur-bar {
+             cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center items-center h-16 space-x-4 md:space-x-8">
+                <a href="#intro" class="nav-link text-gray-600 hover:text-[#A37E2C] font-semibold p-2">INICIO</a>
+                <a href="#cycle" class="nav-link text-gray-600 hover:text-[#A37E2C] font-semibold p-2">EL PROBLEMA</a>
+                <a href="#toolkit" class="nav-link text-gray-600 hover:text-[#A37E2C] font-semibold p-2">SOLUCIONES</a>
+                <a href="#saboteurs" class="nav-link text-gray-600 hover:text-[#A37E2C] font-semibold p-2">RIESGOS</a>
+                <a href="#strategy" class="nav-link text-gray-600 hover:text-[#A37E2C] font-semibold p-2">ESTRATEGIA</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-6 py-12">
+
+        <section id="intro" class="scroll-mt-20">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-[#3B3A36] mb-4">La Guía Definitiva para la Salud Discal</h1>
+                <p class="text-lg md:text-xl text-[#6B6A66] max-w-3xl mx-auto">Una exploración interactiva de la ciencia detrás de la degeneración discal y cómo un enfoque nutracéutico puede proteger y revitalizar tu columna.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-3">
+                    <h2 class="text-3xl font-bold text-[#3B3A36] mb-4">La Base: Anatomía de tu Amortiguador Natural</h2>
+                    <p class="mb-4">El disco intervertebral es una maravilla de la ingeniería biológica, diseñado para dar flexibilidad y absorber impactos. Se compone de un núcleo pulposo gelatinoso, rico en agua, que actúa como un cojín hidráulico; un anillo fibroso resistente que lo contiene; y placas terminales que facilitan el paso de nutrientes. La salud de esta estructura es vital para una columna sin dolor.</p>
+                    <p class="text-sm text-gray-500">Un disco sano es predominantemente agua. Esta hidratación, mantenida por moléculas llamadas proteoglicanos, es la clave de su capacidad para resistir la compresión diaria.</p>
+                </div>
+                <div class="md:col-span-2">
+                    <div class="chart-container" style="height: 250px; max-height: 250px;">
+                        <canvas id="discCompositionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cycle" class="mt-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#3B3A36] mb-4">El Círculo Vicioso de la Degeneración</h2>
+                <p class="text-lg text-[#6B6A66] max-w-3xl mx-auto">La degeneración discal no es un evento aislado, sino una cascada destructiva. La inflamación, el estrés oxidativo y la degradación de la matriz se retroalimentan, creando un ciclo que acelera el daño. Haz clic en cada etapa para entender los actores moleculares.</p>
+            </div>
+            <div class="relative">
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16">
+                    <div id="flow-inflammation" class="flow-node bg-white rounded-2xl shadow-lg p-6 text-center border-2 border-transparent w-full md:w-1/4">
+                        <div class="text-4xl mb-2">🔥</div>
+                        <h3 class="text-xl font-bold text-[#A37E2C]">Inflamación Crónica</h3>
+                    </div>
+                    <div id="flow-stress" class="flow-node bg-white rounded-2xl shadow-lg p-6 text-center border-2 border-transparent w-full md:w-1/4">
+                         <div class="text-4xl mb-2">💥</div>
+                        <h3 class="text-xl font-bold text-[#A37E2C]">Estrés Oxidativo</h3>
+                    </div>
+                    <div id="flow-degradation" class="flow-node bg-white rounded-2xl shadow-lg p-6 text-center border-2 border-transparent w-full md:w-1/4">
+                         <div class="text-4xl mb-2">📉</div>
+                        <h3 class="text-xl font-bold text-[#A37E2C]">Degradación Matriz</h3>
+                    </div>
+                </div>
+                <div id="flow-explanation" class="mt-8 bg-[#E9E4D8] rounded-2xl p-6 text-center min-h-[120px] flex items-center justify-center transition-opacity duration-500 opacity-0">
+                    <p id="flow-text" class="text-[#3B3A36]"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="toolkit" class="mt-20 scroll-mt-20">
+             <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#3B3A36] mb-4">Tu Kit de Herramientas Nutracéutico</h2>
+                <p class="text-lg text-[#6B6A66] max-w-3xl mx-auto">La ciencia ha identificado compuestos clave que pueden interrumpir el ciclo degenerativo y apoyar la regeneración. Explora estas categorías para descubrir cómo funcionan.</p>
+            </div>
+            <div class="flex justify-center flex-wrap gap-2 mb-8">
+                <button class="tab active" data-tab="builders">Constructores de Matriz</button>
+                <button class="tab" data-tab="fighters">Guerreros Anti-inflamación</button>
+                <button class="tab" data-tab="synergy">Sinergia Vitamínica</button>
+            </div>
+            <div id="toolkit-content" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <!-- Content will be injected by JS -->
+            </div>
+        </section>
+
+        <section id="saboteurs" class="mt-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#3B3A36] mb-4">Saboteadores del Estilo de Vida</h2>
+                <p class="text-lg text-[#6B6A66] max-w-3xl mx-auto">Ciertas decisiones diarias pueden acelerar drásticamente la degeneración discal, alimentando la inflamación y dañando la estructura de tu columna. Haz clic en las barras para ver el mecanismo de daño.</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <div class="chart-container" style="max-width: 100%;">
+                        <canvas id="saboteursChart"></canvas>
+                    </div>
+                </div>
+                <div id="saboteur-explanation" class="bg-[#E9E4D8] rounded-2xl p-6 min-h-[200px] flex flex-col justify-center">
+                    <h3 id="saboteur-title" class="text-xl font-bold text-[#A37E2C] mb-2">Selecciona un factor</h3>
+                    <p id="saboteur-text" class="text-[#3B3A36]">Elige una de las barras para conocer en detalle cómo afecta negativamente a la salud de tus discos.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="strategy" class="mt-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#3B3A36] mb-4">La Estrategia Integral: Uniendo las Piezas</h2>
+                <p class="text-lg text-[#6B6A66] max-w-3xl mx-auto">La suplementación es poderosa, pero funciona mejor como parte de un enfoque holístico. Combina nutrición, hidratación y movimiento para una salud espinal óptima y duradera.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                    <div class="text-4xl mb-4">🥦</div>
+                    <h3 class="text-xl font-bold text-[#3B3A36] mb-2">Dieta Anti-inflamatoria</h3>
+                    <p>Prioriza frutas, verduras, grasas saludables y proteínas magras. Reduce azúcares y alimentos procesados para no alimentar la inflamación.</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                    <div class="text-4xl mb-4">💧</div>
+                    <h3 class="text-xl font-bold text-[#3B3A36] mb-2">Hidratación Constante</h3>
+                    <p>Bebe 2-3 litros de agua al día. Es la forma más directa de mantener la turgencia y capacidad de amortiguación de tus discos.</p>
+                </div>
+                 <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                    <div class="text-4xl mb-4">🏃‍♂️</div>
+                    <h3 class="text-xl font-bold text-[#3B3A36] mb-2">Movimiento Inteligente</h3>
+                    <p>El ejercicio moderado nutre los discos. Fortalece tu 'core' para dar soporte a la columna, pero evita movimientos que causen dolor.</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                    <div class="text-4xl mb-4">👨‍⚕️</div>
+                    <h3 class="text-xl font-bold text-[#3B3A36] mb-2">Consulta Profesional</h3>
+                    <p>Habla siempre con un profesional de la salud antes de iniciar cualquier régimen de suplementos para asegurar que sea adecuado para ti.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="bg-[#3B3A36] text-white mt-20 py-8">
+        <div class="container mx-auto text-center">
+            <p>Esta guía interactiva es una herramienta educativa basada en investigación científica. No reemplaza el consejo médico profesional.</p>
+            <p class="text-sm mt-2 opacity-70">Diseñado para la exploración y el entendimiento.</p>
+        </div>
+    </footer>
+
+    <script>
+        const warmNeutralPalette = {
+            dark: '#3B3A36',
+            medium: '#6B6A66',
+            accent: '#A37E2C',
+            light: '#E9E4D8',
+            background: '#F8F7F4',
+            white: '#FFFFFF',
+            negative: '#C70039'
+        };
+
+        const flowData = {
+            inflammation: {
+                title: 'Inflamación Crónica 🔥',
+                text: 'Citoquinas como IL-1β y TNF-α actúan como señales de alarma constantes, activando enzimas que degradan la matriz y promoviendo la muerte celular a través de la vía NF-κB.'
+            },
+            stress: {
+                title: 'Estrés Oxidativo 💥',
+                text: 'Un exceso de radicales libres (ROS) daña directamente las células y proteínas del disco. Este estrés también intensifica la respuesta inflamatoria, alimentando el ciclo.'
+            },
+            degradation: {
+                title: 'Degradación de la Matriz 📉',
+                text: 'Enzimas como las MMPs y ADAMTSs, activadas por la inflamación, actúan como "tijeras moleculares", destruyendo el colágeno y los proteoglicanos, lo que causa deshidratación y pérdida de altura del disco.'
+            }
+        };
+        
+        const saboteurData = {
+            smoking: {
+                title: '🚬 Tabaquismo',
+                text: 'La nicotina provoca vasoconstricción, reduciendo el vital flujo de nutrientes al disco. Además, es directamente tóxica para las células discales, inhibiendo su capacidad de reparación y aumentando el estrés oxidativo.'
+            },
+            alcohol: {
+                title: '🍷 Consumo Excesivo de Alcohol',
+                text: 'El alcohol deshidrata el cuerpo, incluyendo el núcleo pulposo, reduciendo su capacidad de amortiguación. También promueve la inflamación sistémica y la producción de radicales libres (ROS) durante su metabolismo.'
+            },
+            sugar: {
+                title: '🍰 Exceso de Azúcar y Grasas',
+                text: 'El azúcar promueve la formación de Productos Finales de Glicación Avanzada (AGEs). Estos AGEs "caramelizan" y endurecen las fibras de colágeno, haciendo al disco más rígido y frágil, además de potenciar la inflamación sistémica.'
+            }
+        };
+
+        const toolkitContent = {
+            builders: `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#A37E2C] mb-3">Constructores de Matriz: Los Ladrillos</h3>
+                        <p>Estos nutracéuticos proporcionan las materias primas o estimulan a las células del disco para que sinteticen los componentes estructurales clave: proteoglicanos y colágeno. Su acción es fundamental para mantener la hidratación y la integridad del disco.</p>
+                        <p class="mt-4 text-sm text-gray-500">El gráfico de la derecha muestra el potencial relativo de estos compuestos para estimular la síntesis de la matriz, un pilar del proceso anabólico (reconstructivo).</p>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="buildersChart"></canvas>
+                        </div>
+                    </div>
+                </div>`,
+            fighters: `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#A37E2C] mb-3">Guerreros Anti-inflamación: Los Pacificadores</h3>
+                        <p>Este grupo de potentes compuestos bioactivos interrumpe el círculo vicioso de la degeneración en su núcleo: la inflamación y el estrés oxidativo. Actúan sobre múltiples vías moleculares para proteger las células y preservar la matriz.</p>
+                         <p class="mt-4 text-sm text-gray-500">El gráfico de radar muestra la capacidad multifacética de estos compuestos. Una puntuación alta en un eje indica una fuerte actividad en esa área (p. ej., inhibición de NF-κB, el "interruptor maestro" de la inflamación).</p>
+                   </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="fightersChart"></canvas>
+                        </div>
+                    </div>
+                </div>`,
+            synergy: `
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold text-[#A37E2C] mb-4">Sinergia Vitamínica: El Dúo Dinámico</h3>
+                    <p class="max-w-2xl mx-auto mb-8">Las vitaminas D3 y K2 trabajan en perfecta armonía. Su acción combinada es crucial para la salud ósea y para prevenir la calcificación de los tejidos blandos que rodean el disco, asegurando así un correcto flujo de nutrientes.</p>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                        <div class="bg-[#E9E4D8] p-6 rounded-2xl w-full md:w-1/3">
+                            <h4 class="font-bold text-lg text-[#3B3A36]">Vitamina D3</h4>
+                            <p>Aumenta la absorción de calcio desde el intestino.</p>
+                        </div>
+                        <div class="text-4xl font-bold text-[#A37E2C] mx-4">+</div>
+                        <div class="bg-[#E9E4D8] p-6 rounded-2xl w-full md:w-1/3">
+                            <h4 class="font-bold text-lg text-[#3B3A36]">Vitamina K2</h4>
+                            <p>Activa proteínas que dirigen el calcio hacia los huesos y lo alejan de arterias y placas terminales.</p>
+                        </div>
+                    </div>
+                     <div class="mt-8 bg-green-100 text-green-800 p-4 rounded-2xl max-w-2xl mx-auto">
+                        <p class="font-bold">Resultado: Huesos fuertes y un suministro de nutrientes sin obstrucciones para el disco.</p>
+                    </div>
+                </div>`
+        };
+
+        function wrapLabel(str, maxWidth = 16) {
+            if (typeof str !== 'string' || str.length <= maxWidth) return str;
+            const words = str.split(' ');
+            let lines = [];
+            let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + ' ' + words[i]).length > maxWidth) {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                } else {
+                    currentLine += ' ' + words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            return Array.isArray(label) ? label.join(' ') : label;
+        };
+
+        const chartDefaultOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    titleFont: { size: 14, weight: 'bold', family: 'Roboto Slab' },
+                    bodyFont: { size: 12, family: 'Source Sans 3' },
+                    padding: 10,
+                    cornerRadius: 5,
+                    callbacks: { title: tooltipTitleCallback }
+                }
+            }
+        };
+
+        function initCharts() {
+            new Chart(document.getElementById('discCompositionChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Agua', 'Colágeno', 'Proteoglicanos'],
+                    datasets: [{
+                        data: [80, 15, 5],
+                        backgroundColor: [ '#5DA5DA', '#FAA43A', '#60BD68'],
+                        borderColor: warmNeutralPalette.white,
+                        borderWidth: 4,
+                    }]
+                },
+                options: { ...chartDefaultOptions,
+                    plugins: {
+                        ...chartDefaultOptions.plugins,
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: { color: warmNeutralPalette.dark, font: { family: 'Source Sans 3' } }
+                        },
+                        title: { display: true, text: 'Composición de un Disco Sano (%)', color: warmNeutralPalette.dark, font: { size: 16, family: 'Roboto Slab' } }
+                    }
+                }
+            });
+
+            new Chart(document.getElementById('saboteursChart'), {
+                type: 'bar',
+                data: {
+                    labels: [wrapLabel('Tabaquismo'), wrapLabel('Alcohol (Exceso)'), wrapLabel('Azúcar / Grasas Saturadas')],
+                    datasets: [{
+                        label: 'Impacto Degenerativo',
+                        data: [95, 75, 90],
+                        backgroundColor: [warmNeutralPalette.negative+'aa', warmNeutralPalette.negative+'80', warmNeutralPalette.negative+'cc'],
+                        borderColor: warmNeutralPalette.negative,
+                        borderWidth: 2,
+                        borderRadius: 5
+                    }]
+                },
+                options: { ...chartDefaultOptions,
+                    indexAxis: 'y',
+                    onClick: (event, elements) => {
+                        if (elements.length > 0) {
+                            const index = elements[0].index;
+                            const key = ['smoking', 'alcohol', 'sugar'][index];
+                            updateSaboteurExplanation(key);
+                        }
+                    },
+                     onHover: (event, chartElement) => {
+                        event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                     },
+                    scales: { x: { ticks: { color: warmNeutralPalette.medium } }, y: { ticks: { color: warmNeutralPalette.dark, font: { size: 14 } } } }
+                }
+            });
+        }
+        
+        function updateSaboteurExplanation(key) {
+             document.getElementById('saboteur-title').textContent = saboteurData[key].title;
+             document.getElementById('saboteur-text').textContent = saboteurData[key].text;
+        }
+
+        function initBuildersChart() {
+            new Chart(document.getElementById('buildersChart'), {
+                type: 'bar',
+                data: {
+                    labels: [wrapLabel('Glucosamina & Condroitina'), wrapLabel('Vitamina C'), wrapLabel('Colágeno Hidrolizado')],
+                    datasets: [{
+                        data: [75, 95, 65],
+                        backgroundColor: ['#60BD68', '#5DA5DA', '#FAA43A'],
+                    }]
+                },
+                options: { ...chartDefaultOptions, scales: { x: { ticks: { color: warmNeutralPalette.dark } }, y: { ticks: { color: warmNeutralPalette.medium } } } }
+            });
+        }
+        
+        function initFightersChart() {
+            new Chart(document.getElementById('fightersChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Anti-Inflamatorio', 'Antioxidante', 'Anti-Catabólico', 'Pro-Anabólico', wrapLabel('Inhibe NF-κB')],
+                    datasets: [{
+                        label: 'Curcumina',
+                        data: [9, 8, 8, 5, 9],
+                        backgroundColor: 'rgba(250, 164, 58, 0.2)',
+                        borderColor: '#FAA43A',
+                        pointBackgroundColor: '#FAA43A'
+                    }, {
+                        label: 'Resveratrol',
+                        data: [7, 9, 7, 8, 6],
+                        backgroundColor: 'rgba(93, 165, 218, 0.2)',
+                        borderColor: '#5DA5DA',
+                        pointBackgroundColor: '#5DA5DA'
+                    }]
+                },
+                options: {
+                    ...chartDefaultOptions,
+                    plugins: {...chartDefaultOptions.plugins, legend: { display: true, position: 'bottom', labels: {color: warmNeutralPalette.dark, font: { family: 'Source Sans 3' }}}},
+                    scales: { r: { pointLabels: { font: { size: 12 } }, angleLines: { color: warmNeutralPalette.light }, grid: { color: warmNeutralPalette.light }, ticks: { display: false } } }
+                }
+            });
+        }
+
+        function handleToolkitTabs(tabName) {
+            const contentEl = document.getElementById('toolkit-content');
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+            
+            contentEl.innerHTML = toolkitContent[tabName];
+            
+            if (tabName === 'builders') initBuildersChart();
+            if (tabName === 'fighters') initFightersChart();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            
+            const flowNodes = document.querySelectorAll('.flow-node');
+            flowNodes.forEach(node => {
+                node.addEventListener('click', () => {
+                    flowNodes.forEach(n => n.classList.remove('active'));
+                    node.classList.add('active');
+                    const key = node.id.split('-')[1];
+                    document.getElementById('flow-explanation').classList.remove('opacity-0');
+                    document.getElementById('flow-text').innerHTML = `<strong>${flowData[key].title}</strong>: ${flowData[key].text}`;
+                });
+            });
+
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    handleToolkitTabs(tab.dataset.tab);
+                });
+            });
+            handleToolkitTabs('builders');
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px' });
+            sections.forEach(sec => observer.observe(sec));
+        });
+
+    </script>
+
+</body>
+</html>
