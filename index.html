@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>En busca de la salud perdida</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Paleta cálida: cúrcuma, verdes, acentos naturales -->
   <style>
     body {
       min-height: 100vh;
@@ -33,31 +32,54 @@
     }
     nav {
       margin: 50px 0 30px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
       width: 100%;
-      max-width: 420px;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
     }
-    nav a {
-      display: block;
+    .menu-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
       background: #fffbe6;
       color: #33691e;
       text-decoration: none;
-      padding: 14px 0;
-      font-size: 1.18em;
+      padding: 16px 18px;
+      font-size: 1.13em;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(8,65,92,0.07);
-      text-align: center;
       transition: background 0.3s, color 0.3s, box-shadow 0.3s;
       font-weight: 500;
       border-left: 8px solid #e1ad01;
+      min-height: 54px;
+      word-break: break-word;
     }
-    nav a:hover {
+    .menu-link:hover {
       background: #e1ad01;
       color: #fff;
       box-shadow: 0 6px 16px rgba(8,65,92,0.15);
       border-left: 8px solid #4b7b3f;
+    }
+    .menu-icon {
+      flex-shrink: 0;
+      font-size: 1.8em;
+      width: 1.5em;
+      height: 1.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f9eac2;
+      margin-right: 4px;
+    }
+    .menu-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #f9eac2;
+      margin-right: 4px;
     }
     footer {
       margin-top: auto;
@@ -69,15 +91,18 @@
       font-size: 1em;
       letter-spacing: 1px;
     }
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       h1 {
         font-size: 2em;
       }
-      nav a {
-        font-size: 1em;
-        padding: 12px 0;
+      nav {
+        max-width: 99vw;
+        grid-template-columns: 1fr;
       }
-      nav { max-width: 99vw; }
+      .menu-link {
+        font-size: 1em;
+        padding: 12px 12px;
+      }
     }
   </style>
 </head>
@@ -87,15 +112,94 @@
     <p>Bienvenido a tu espacio de información y bienestar.</p>
   </header>
 
-  <nav>
-    <a href="infografia-especias-1.html">Infografía: Extracto funcional de especias</a>
-    <a href="Extracto_funcional_especias.html">Infografía: Detalle de moléculas y sinergias</a>
-    <a href="Fármacos-antiinflamatorios.html">Guía: Fármacos antiinflamatorios</a>
-    <a href="El_dolor.html">Explorador: Fisiología del dolor</a>
-    <a href="Salud_disco_intervertebral.html">Guía: Salud del disco intervertebral</a>
-    <a href="Disnea_epondilitis_anquilosante.html">Disnea y Espondilitis Anquilosante</a>
-    <a href="Enfoque_nutraceútico_degeneración_discal.html">Enfoque nutracéutico y degeneración discal</a>
+  <nav id="menu-infografias">
+    <!-- Menú autogenerado -->
   </nav>
+
+  <footer>
+    &copy; 2025 AmorinCoach - Inspirando salud y bienestar cada día
+  </footer>
+
+  <script>
+    // Ejemplo de array de páginas con icono o imagen (elige uno por página)
+    const paginas = [
+      {
+        archivo: "infografia-especias-1.html",
+        titulo: "Extracto funcional de especias",
+        icon: "🌿"
+      },
+      {
+        archivo: "Extracto_funcional_especias.html",
+        titulo: "Detalle de moléculas y sinergias",
+        icon: "🧬"
+      },
+      {
+        archivo: "Fármacos-antiinflamatorios.html",
+        titulo: "Guía: Fármacos antiinflamatorios",
+        icon: "💊"
+      },
+      {
+        archivo: "El_dolor.html",
+        titulo: "Explorador: Fisiología del dolor",
+        icon: "⚡"
+      },
+      {
+        archivo: "Salud_disco_intervertebral.html",
+        titulo: "Guía: Salud del disco intervertebral",
+        icon: "🦴"
+      },
+      {
+        archivo: "Disnea_epondilitis_anquilosante.html",
+        titulo: "Disnea y Espondilitis Anquilosante",
+        icon: "💨"
+      },
+      {
+        archivo: "Enfoque_nutraceútico_degeneración_discal.html",
+        titulo: "Enfoque nutracéutico y degeneración discal",
+        icon: "🥗"
+      },
+      {
+        archivo: "Análisis_del_extracto_infografía.html",
+        titulo: "Infografía: Análisis del extracto",
+        // Puedes usar un emoji, o bien una imagen:
+        //img: "ruta/a/tu/imagen.png"
+        icon: "🔬"
+      },
+      {
+        archivo: "Nueva_infografia.html",
+        titulo: "Infografía: Ejemplo con imagen",
+        img: "https://cdn-icons-png.flaticon.com/512/616/616408.png"
+      }
+    ];
+
+    const nav = document.getElementById('menu-infografias');
+    paginas.forEach(pagina => {
+      const a = document.createElement('a');
+      a.href = pagina.archivo;
+      a.className = "menu-link";
+      // Ícono emoji o imagen
+      if (pagina.img) {
+        const img = document.createElement('img');
+        img.src = pagina.img;
+        img.className = "menu-img";
+        img.alt = "ícono";
+        a.appendChild(img);
+      } else if (pagina.icon) {
+        const span = document.createElement('span');
+        span.className = "menu-icon";
+        span.textContent = pagina.icon;
+        a.appendChild(span);
+      }
+      // El texto
+      const text = document.createElement('span');
+      text.textContent = pagina.titulo;
+      a.appendChild(text);
+
+      nav.appendChild(a);
+    });
+  </script>
+</body>
+</html>
 
   <footer>
     &copy; 2025 AmorinCoach - Inspirando salud y bienestar cada día
