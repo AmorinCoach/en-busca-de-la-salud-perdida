@@ -2,89 +2,62 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>En busca de la salud perdida - Galería de Infografías</title>
+  <title>En busca de la salud perdida</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Paleta cálida: cúrcuma, verdes, acentos naturales -->
   <style>
     body {
       min-height: 100vh;
       margin: 0;
-      font-family: 'Inter', Arial, sans-serif;
-      background: linear-gradient(120deg, #f6e27a 0%, #a3c585 80%, #e1ad01 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #f6e27a 0%, #a3c585 70%, #e1ad01 100%);
       color: #2c3e26;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
     header {
-      width: 100%;
-      background: rgba(163, 126, 44, 0.09);
-      padding: 48px 0 20px 0;
+      margin-top: 40px;
       text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
-    header h1 {
-      margin: 0 0 14px 0;
-      font-family: 'Roboto Slab', serif;
-      font-size: 2.8em;
+    h1 {
+      font-size: 2.6em;
       color: #b28800;
-      letter-spacing: 2px;
+      margin-bottom: 10px;
+      letter-spacing: 1.5px;
+      text-shadow: 1px 2px 8px #fffbe6;
     }
-    header h2 {
-      margin: 0;
-      font-size: 1.35em;
-      color: #4b7b3f;
-      font-weight: 400;
+    p {
+      font-size: 1.25em;
+      color: #355829;
     }
-    main {
-      width: 100%;
-      max-width: 600px;
-      padding: 32px 16px 16px 16px;
+    nav {
+      margin: 50px 0 30px 0;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      flex: 1;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 40px 0 30px 0;
+      gap: 18px;
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+      max-width: 420px;
     }
-    li {
-      width: 100%;
-    }
-    a.infografia-link {
+    nav a {
       display: block;
       background: #fffbe6;
       color: #33691e;
       text-decoration: none;
-      padding: 18px 0;
-      border-radius: 12px;
-      font-size: 1.22em;
+      padding: 14px 0;
+      font-size: 1.18em;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(8,65,92,0.07);
       text-align: center;
-      box-shadow: 0 4px 12px rgba(76,119,63,0.08);
-      font-weight: 600;
+      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+      font-weight: 500;
       border-left: 8px solid #e1ad01;
-      transition: background 0.3s, color 0.3s, box-shadow 0.3s, border-left 0.3s;
-      letter-spacing: 1px;
     }
-    a.infografia-link:hover {
+    nav a:hover {
       background: #e1ad01;
       color: #fff;
-      box-shadow: 0 6px 16px rgba(163,126,44,0.11);
+      box-shadow: 0 6px 16px rgba(8,65,92,0.15);
       border-left: 8px solid #4b7b3f;
-    }
-    p {
-      color: #355829;
-      font-size: 1.1em;
-      margin-bottom: 30px;
-      text-align: center;
     }
     footer {
       margin-top: auto;
@@ -96,45 +69,34 @@
       font-size: 1em;
       letter-spacing: 1px;
     }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.5em; }
-      a.infografia-link { font-size: 1em; padding: 12px 0; }
-      ul { gap: 12px; }
-      main { padding: 18px 2vw 8px 2vw; }
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 2em;
+      }
+      nav a {
+        font-size: 1em;
+        padding: 12px 0;
+      }
+      nav { max-width: 99vw; }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>En busca de la salud perdida</h1>
-    <h2>Galería de Infografías Interactivas y Recetas</h2>
+    <p>Bienvenido a tu espacio de información y bienestar.</p>
   </header>
-  <main>
-    <ul>
-      <li>
-        <a class="infografia-link" href="Salud_disco_intervertebral.html">
-          Guía Interactiva: Salud del Disco Intervertebral
-        </a>
-      </li>
-      <li>
-        <a class="infografia-link" href="infografia-especias-1.html">
-          Infografía: Extracto Funcional de Especias (Versión LibreOffice)
-        </a>
-      </li>
-      <li>
-        <a class="infografia-link" href="Extracto_funcional_especias.html">
-          Infografía: Extracto Funcional de Especias (Interactiva)
-        </a>
-      </li>
-      <!-- Puedes añadir más enlaces aquí según crees nuevas infografías o recetas -->
-    </ul>
-    <p>Más infografías y recursos próximamente... ¡Vuelve pronto!</p>
-  </main>
-  <footer>
-    &copy; 2025 AmorinCoach - Inspirando salud y bienestar cada día
-  </footer>
-</body>
-</html>
+
+  <nav>
+    <a href="infografia-especias-1.html">Infografía: Extracto funcional de especias</a>
+    <a href="Extracto_funcional_especias.html">Infografía: Detalle de moléculas y sinergias</a>
+    <a href="Fármacos-antiinflamatorios.html">Guía: Fármacos antiinflamatorios</a>
+    <a href="El_dolor.html">Explorador: Fisiología del dolor</a>
+    <a href="Salud_disco_intervertebral.html">Guía: Salud del disco intervertebral</a>
+    <a href="Disnea_epondilitis_anquilosante.html">Disnea y Espondilitis Anquilosante</a>
+    <a href="Enfoque_nutraceútico_degeneración_discal.html">Enfoque nutracéutico y degeneración discal</a>
+  </nav>
+
   <footer>
     &copy; 2025 AmorinCoach - Inspirando salud y bienestar cada día
   </footer>
