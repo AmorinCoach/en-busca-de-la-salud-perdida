@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Curcumina vs. AINEs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flow-line::after {
+            content: '▼';
+            display: block;
+            text-align: center;
+            color: #FF5733;
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+        .benefit-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            text-align: center;
+            border-left: 5px solid #FFC300;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-8 md:my-12">
+            <h1 class="text-4xl md:text-6xl font-black" style="color: #900C3F;">Curcumina: La Alternativa Natural a los Antiinflamatorios</h1>
+            <p class="text-lg md:text-xl mt-4 max-w-3xl mx-auto" style="color: #581845;">Un análisis profundo de cómo la curcumina modula la inflamación con un perfil de seguridad superior a los fármacos antiinflamatorios no esteroideos (AINEs).</p>
+        </header>
+
+        <main>
+            <section class="my-12 md:my-16">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-6" style="color: #C70039;">El Mecanismo de Acción Multi-Objetivo</h2>
+                    <p class="text-center max-w-4xl mx-auto mb-8">A diferencia de los fármacos que bloquean una sola vía, la curcumina modula de forma inteligente la cascada inflamatoria en múltiples niveles, empezando por el factor de transcripción maestro: NF-κB.</p>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-md">
+                            <h3 class="font-bold text-lg">Curcumina</h3>
+                        </div>
+                        <div class="flow-line"></div>
+                        <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 rounded-lg shadow-md">
+                            <h3 class="font-bold text-lg">Inhibe la activación de NF-κB</h3>
+                        </div>
+                        <div class="flow-line"></div>
+                        <p class="text-center mb-4">Lo que reduce la producción de múltiples mediadores pro-inflamatorios:</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl">
+                            <div class="bg-yellow-100 text-yellow-800 p-3 rounded-lg text-center shadow"><strong>COX-2</strong></div>
+                            <div class="bg-yellow-100 text-yellow-800 p-3 rounded-lg text-center shadow"><strong>LOX</strong></div>
+                            <div class="bg-yellow-100 text-yellow-800 p-3 rounded-lg text-center shadow"><strong>TNF-α</strong></div>
+                            <div class="bg-yellow-100 text-yellow-800 p-3 rounded-lg text-center shadow"><strong>IL-6</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="my-12 md:my-16">
+                 <h2 class="text-3xl font-bold text-center mb-8" style="color: #C70039;">Curcumina vs. AINEs: Comparativa Directa</h2>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                     <div class="bg-white rounded-lg shadow-lg p-6">
+                         <h3 class="text-2xl font-bold text-center mb-4">Perfil Terapéutico General</h3>
+                         <p class="text-center mb-4">Este gráfico de radar compara ambos compuestos en métricas clave. Un área mayor indica un perfil más favorable. La superioridad de la curcumina en seguridad y acción multi-objetivo es evidente.</p>
+                         <div class="chart-container">
+                             <canvas id="comparisonRadarChart"></canvas>
+                         </div>
+                     </div>
+                     <div class="bg-white rounded-lg shadow-lg p-6">
+                         <h3 class="text-2xl font-bold text-center mb-4">Perfil de Efectos Secundarios a Largo Plazo</h3>
+                          <p class="text-center mb-4">El uso crónico de AINEs se asocia con riesgos significativos. La curcumina, en cambio, muestra una excelente tolerabilidad y un perfil de seguridad muy superior, un factor crucial para el manejo de enfermedades crónicas.</p>
+                         <div class="chart-container">
+                             <canvas id="sideEffectsBarChart"></canvas>
+                         </div>
+                     </div>
+                 </div>
+            </section>
+
+            <section class="my-12 md:my-16">
+                <h2 class="text-3xl font-bold text-center mb-8" style="color: #C70039;">El Reto de la Biodisponibilidad y la Solución Sinergética</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="text-center bg-white rounded-lg shadow-lg p-8">
+                        <p class="text-lg">El principal obstáculo de la curcumina es su baja absorción. Sin embargo, la naturaleza ofrece una solución elegante.</p>
+                        <p class="text-8xl font-black my-4" style="color: #FF5733;">2000%</p>
+                        <p class="text-xl font-bold">Aumento de la biodisponibilidad</p>
+                        <p class="mt-2">La co-administración con <strong>piperina</strong> (de la pimienta negra) inhibe el metabolismo de la curcumina, permitiendo que alcance niveles terapéuticos efectivos en el cuerpo.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-center items-center h-full">
+                        <h3 class="text-2xl font-bold text-center mb-6">Visualizando la Sinergia</h3>
+                        <div class="w-full">
+                            <div class="mb-6">
+                                <p class="text-center font-semibold mb-2">Curcumina Sola</p>
+                                <div class="w-full bg-gray-200 rounded-full h-8">
+                                    <div class="bg-orange-300 h-8 rounded-full" style="width: 10%"></div>
+                                </div>
+                                <p class="text-center text-sm mt-1">Baja absorción sistémica</p>
+                            </div>
+                            <div>
+                                <p class="text-center font-semibold mb-2">Curcumina + Piperina</p>
+                                <div class="w-full bg-gray-200 rounded-full h-8">
+                                     <div class="h-8 rounded-full" style="width: 100%; background-color: #FF5733;"></div>
+                                </div>
+                                <p class="text-center text-sm mt-1">Absorción maximizada</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="my-12 md:my-16">
+                <h2 class="text-3xl font-bold text-center mb-8" style="color: #C70039;">Ventajas Terapéuticas Clave</h2>
+                 <p class="text-center max-w-4xl mx-auto mb-10">Las propiedades únicas de la curcumina le confieren ventajas distintivas para el manejo de la inflamación crónica, yendo más allá de un simple efecto antiinflamatorio.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="benefit-card">
+                        <div class="text-5xl mb-4">🎯</div>
+                        <h3 class="text-xl font-bold mb-2">Efecto Multimodal</h3>
+                        <p>Actúa sobre diversas dianas moleculares (NF-κB, COX-2, LOX), ofreciendo un enfoque más integral para patologías complejas.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="text-5xl mb-4">🛡️</div>
+                        <h3 class="text-xl font-bold mb-2">Bajo Perfil Toxicológico</h3>
+                        <p>Excelente tolerabilidad y escasos efectos secundarios, ideal para tratamientos crónicos donde la seguridad es primordial.</p>
+                    </div>
+                    <div class="benefit-card">
+                         <div class="text-5xl mb-4">✨</div>
+                        <h3 class="text-xl font-bold mb-2">Poder Antioxidante</h3>
+                        <p>Neutraliza radicales libres y potencia las defensas antioxidantes del cuerpo, protegiendo las células del daño oxidativo.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="text-5xl mb-4">🤝</div>
+                        <h3 class="text-xl font-bold mb-2">Terapia Complementaria</h3>
+                        <p>Puede usarse como adyuvante para reducir la dosis de fármacos sintéticos y, por tanto, minimizar sus efectos secundarios.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <footer class="text-center my-8 md:my-12 border-t pt-8">
+                <h2 class="text-3xl font-bold text-center mb-4" style="color: #581845;">Conclusión y Perspectivas Futuras</h2>
+                <p class="max-w-3xl mx-auto">La curcumina, especialmente cuando se formula para una alta biodisponibilidad, representa una poderosa herramienta en la medicina integrativa. Su perfil de acción multi-objetivo y su alta seguridad la convierten en un candidato ideal para el manejo a largo plazo de enfermedades inflamatorias crónicas. Se necesita más investigación clínica para estandarizar su uso, pero su potencial para transformar el tratamiento de la inflamación es innegable.</p>
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        function wrapLabels(label, maxLength) {
+            const words = label.split(' ');
+            let line = '';
+            const lines = [];
+            for (let i = 0; i < words.length; i++) {
+                const testLine = line + words[i] + ' ';
+                if (testLine.length > maxLength && i > 0) {
+                    lines.push(line.trim());
+                    line = words[i] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line.trim());
+            return lines;
+        }
+
+        const tooltipTitleCallback = function(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            } else {
+              return label;
+            }
+        };
+
+        const PALETTE = {
+            orangeRed: '#FF5733',
+            yellow: '#FFC300',
+            lightGreen: '#DAF7A6',
+            crimson: '#C70039',
+            darkMagenta: '#900C3F',
+            darkPurple: '#581845'
+        };
+
+        const radarCtx = document.getElementById('comparisonRadarChart').getContext('2d');
+        new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Seguridad (Pocos Efectos Adversos)', 'Acción Multi-Objetivo', 'Idoneidad para Uso Crónico', 'Poder Antioxidante', 'Eficacia Antiinflamatoria'],
+                datasets: [{
+                    label: 'Curcumina',
+                    data: [9, 9, 9, 8, 7],
+                    backgroundColor: 'rgba(255, 195, 0, 0.4)',
+                    borderColor: PALETTE.yellow,
+                    pointBackgroundColor: PALETTE.yellow,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: PALETTE.yellow
+                }, {
+                    label: 'AINEs',
+                    data: [3, 2, 4, 1, 9],
+                    backgroundColor: 'rgba(255, 87, 51, 0.4)',
+                    borderColor: PALETTE.orangeRed,
+                    pointBackgroundColor: PALETTE.orangeRed,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: PALETTE.orangeRed
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        pointLabels: {
+                            font: {
+                                size: 12
+                            },
+                            color: PALETTE.darkPurple
+                        },
+                        ticks: {
+                            backdropColor: 'rgba(0, 0, 0, 0)',
+                            color: 'rgba(0, 0, 0, 0.5)',
+                            stepSize: 2
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+
+        const barCtx = document.getElementById('sideEffectsBarChart').getContext('2d');
+        const originalLabels = ['AINEs (Uso Crónico)', 'Curcumina'];
+        const processedLabels = originalLabels.map(label => wrapLabels(label, 16));
+
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: processedLabels,
+                datasets: [
+                    {
+                        label: 'Riesgo Gastrointestinal',
+                        data: [35, 1],
+                        backgroundColor: PALETTE.orangeRed,
+                    },
+                    {
+                        label: 'Riesgo Renal',
+                        data: [25, 0.5],
+                        backgroundColor: PALETTE.crimson,
+                    },
+                    {
+                        label: 'Riesgo Cardiovascular',
+                        data: [20, 0.5],
+                        backgroundColor: PALETTE.darkMagenta,
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        stacked: true,
+                        title: {
+                            display: true,
+                            text: 'Incidencia Relativa de Efectos Adversos (%)'
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                           title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
