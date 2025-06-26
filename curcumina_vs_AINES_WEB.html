@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Interactivo: Curcumina vs. AINEs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Turmeric & Science (Warm neutrals: amber-50 bg, slate-800 text; Accents: amber-500/600 for Curcumin, sky-500/600 for NSAIDs) -->
+    <!-- Application Structure Plan: A single-page, vertical-scroll application with a sticky header for navigation. The structure is thematic: 1) Introduction, 2) Interactive side-by-side comparison of Curcumin vs. NSAIDs (mechanisms, effects, safety), 3) A section explaining Curcumin's bioavailability problem, visually solved with a bar chart showing Piperine's impact, 4) Summary/Conclusion. This structure was chosen to guide the user from a general overview to a detailed comparison and then present a key challenge and its solution, making the complex information digestible and a compelling narrative, rather than a dry academic report. -->
+    <!-- Visualization & Content Choices:
+    * Report Info: Comparison of Curcumin/NSAID mechanisms. Goal: Compare. Viz: Two-column layout with HTML/CSS flow diagrams. Interaction: N/A, direct visual comparison. Justification: Clearly contrasts the two pathways (modulation vs. blocking) without complex imagery. Method: Tailwind CSS Grid.
+    * Report Info: Side effect profiles. Goal: Compare. Viz: Icon-driven (Unicode) lists within comparison columns. Interaction: N/A. Justification: Quick, scannable visual cues for safety vs. risk. Method: HTML/CSS.
+    * Report Info: Piperine increases Curcumin absorption by 2000%. Goal: Show Change/Compare. Viz: Vertical Bar Chart. Interaction: Hover tooltips with details. Justification: A chart provides the most dramatic and clear visualization of this crucial data point. Library: Chart.js.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 40vh;
+            width: 100%;
+            max-width: 600px;
+            max-height: 400px;
+        }
+        .flow-arrow {
+            position: relative;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .flow-arrow::after {
+            content: '↓';
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-amber-50 text-slate-800">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold text-amber-600">Curcumina</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#intro" class="text-slate-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">Introducción</a>
+                        <a href="#comparativa" class="text-slate-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">Comparativa</a>
+                        <a href="#solucion" class="text-slate-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">La Solución</a>
+                        <a href="#conclusion" class="text-slate-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">Conclusión</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="intro" class="py-20 md:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight">
+                    Curcumina: La Alternativa <span class="text-amber-600">Natural</span> a los Antiinflamatorios
+                </h1>
+                <p class="mt-6 max-w-3xl mx-auto text-lg text-slate-600">
+                    Este análisis explora cómo la curcumina, el compuesto activo de la cúrcuma, ofrece una potente acción antiinflamatoria. A diferencia de los fármacos antiinflamatorios no esteroideos (AINEs) tradicionales, la curcumina presenta un mecanismo de acción más selectivo y un perfil de seguridad superior, posicionándose como una alternativa complementaria para el manejo de la inflamación crónica.
+                </p>
+            </div>
+        </section>
+
+        <section id="comparativa" class="py-16 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-slate-900">Mecanismo de Acción: Curcumina vs. AINEs</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-md text-slate-600">
+                        La inflamación es una respuesta natural del cuerpo, pero cuando se vuelve crónica, requiere intervención. Aquí comparamos dos enfoques para controlarla: la modulación natural de la curcumina y el bloqueo farmacológico de los AINEs. Descubra las diferencias clave en sus vías de acción y sus consecuencias para la salud.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+
+                    <div class="bg-amber-50 rounded-xl p-6 shadow-lg border border-amber-200">
+                        <h3 class="text-2xl font-bold text-amber-700 mb-4 text-center">Curcumina</h3>
+                        <p class="text-slate-600 text-center mb-6">Actúa como un modulador inteligente de las vías inflamatorias.</p>
+                        
+                        <div class="bg-white rounded-lg p-4">
+                            <div class="text-center">
+                                <span class="font-semibold">Estímulo Inflamatorio</span>
+                            </div>
+                            <div class="flow-arrow"></div>
+                            <div class="bg-amber-100 border border-amber-300 rounded-md p-3 text-center">
+                                <h4 class="font-bold text-amber-800">Modula NF-κB</h4>
+                                <p class="text-xs text-amber-700">Factor de transcripción clave</p>
+                            </div>
+                            <div class="flow-arrow"></div>
+                             <div class="text-center bg-gray-100 p-3 rounded-md">
+                                <p class="font-semibold text-slate-700">Reduce selectivamente:</p>
+                                <ul class="text-sm text-slate-600 mt-2 space-y-1">
+                                    <li><span class="font-mono bg-amber-200 px-2 py-1 rounded">COX-2</span> (Enzima inflamatoria)</li>
+                                    <li><span class="font-mono bg-amber-200 px-2 py-1 rounded">Citoquinas</span> (TNF-α, IL-1, IL-6)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <h4 class="font-bold text-slate-800 mb-3 text-lg">Perfil de Seguridad:</h4>
+                            <ul class="space-y-2 text-slate-700">
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2 mt-1">✔</span>
+                                    <span>Alto perfil de seguridad, bien tolerada.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2 mt-1">✔</span>
+                                    <span>Protección gástrica y sin riesgos cardiovasculares asociados.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2 mt-1">✔</span>
+                                    <span>Propiedades antioxidantes adicionales que protegen las células.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-sky-50 rounded-xl p-6 shadow-lg border border-sky-200">
+                        <h3 class="text-2xl font-bold text-sky-700 mb-4 text-center">AINEs (Ej. Ibuprofeno)</h3>
+                        <p class="text-slate-600 text-center mb-6">Actúan como un bloqueador general de enzimas clave.</p>
+
+                        <div class="bg-white rounded-lg p-4">
+                            <div class="text-center">
+                                <span class="font-semibold">Estímulo Inflamatorio</span>
+                            </div>
+                            <div class="flow-arrow"></div>
+                            <div class="bg-sky-100 border border-sky-300 rounded-md p-3 text-center">
+                                <h4 class="font-bold text-sky-800">Bloquea COX-1 y COX-2</h4>
+                                <p class="text-xs text-sky-700">Inhibición
